@@ -1,8 +1,11 @@
 package com.khuongviettai.coffee.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
+import com.khuongviettai.coffee.activity.ProductDetailActivity;
 import com.khuongviettai.coffee.adapter.ProductAdapter;
 import com.khuongviettai.coffee.database.ApiProduct;
 import com.khuongviettai.coffee.databinding.FragmentShopBinding;
@@ -52,7 +56,7 @@ public class ShopFragment extends Fragment {
                     .setDimAmount(0.5f);
         }
         // set up the adapter and layout manager
-        productAdapter = new ProductAdapter(productList);
+        productAdapter = new ProductAdapter(productList, this::goToProductDetail);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(productAdapter);
@@ -140,4 +144,20 @@ public class ShopFragment extends Fragment {
             ex.printStackTrace();
         }
     }
+
+    private void goToProductDetail(@NonNull Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        startActivity(requireContext(), ProductDetailActivity.class, bundle);
+    }
+
+    public static void startActivity(Context context, Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent(context, clz);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+
+
 }

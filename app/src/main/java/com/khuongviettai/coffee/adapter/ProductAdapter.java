@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khuongviettai.coffee.databinding.ItemLayoutProductBinding;
+import com.khuongviettai.coffee.listener.ClickItemListener;
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
 
@@ -17,9 +18,12 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private List<Product> productList;
+    public ClickItemListener clickItemListener;
 
-    public ProductAdapter(List<Product> productList) {
+    public ProductAdapter(List<Product> productList, ClickItemListener clickItemListener) {
         this.productList = productList;
+        this.clickItemListener = clickItemListener;
+
     }
 
     @NonNull
@@ -50,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.itemLayoutProductBinding.tvSaleOff.setVisibility(View.VISIBLE);
             holder.itemLayoutProductBinding.tvPrice.setVisibility(View.VISIBLE);
 
-            String strSale = "Giảm " + product.getSale() + "%";
+            String strSale = "Sale " + product.getSale() + "%";
             holder.itemLayoutProductBinding.tvSaleOff.setText(strSale);
 
             String strOldPrice = product.getPrice() + "";
@@ -64,6 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.itemLayoutProductBinding.tvPriceSale.setText(formattedRealPrice);
         }
         holder.itemLayoutProductBinding.tvProductName.setText(product.getName());
+        holder.itemLayoutProductBinding.layoutItem.setOnClickListener(v -> clickItemListener.onClickItem(product));
 
 
     }

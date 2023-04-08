@@ -9,11 +9,20 @@
     <string name="profile">Profile</string>
 
 
-
     <!--  OnBoarding  -->
     <string name="get_start">Get Start</string>
     <!--  Shop  -->
     <string name="search">Search</string>
+
+<!--  product  -->
+    <string name="price">Price:</string>
+    <string name="description">Description</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="topping">Topping</string>
+    <string name="size">Size</string>
+    <string name="note_sie">size M + 10,000, size, L + 20,000</string>
+    <string name="note_topping">choose only 1 extra topping, + 10,000</string>
+    <string name="added_to_cart">Added to cart</string>
 
     <!--  Login Register  -->
     <string name="login">Login</string>

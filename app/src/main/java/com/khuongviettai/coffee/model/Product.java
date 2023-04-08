@@ -1,8 +1,9 @@
 package com.khuongviettai.coffee.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
     private String _id;
     private String name;
     private int price;
