@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.HomeFragment">
 
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_marginEnd="@dimen/dimen_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+           android:layout_centerVertical="true"
+            android:textColor="@color/brownPrimary"
+            android:fontFamily="@font/bungee_regular"
+            android:padding="@dimen/dimen_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"/>
+        <ImageView
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
+            android:src="@drawable/notifications"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
         android:layout_marginTop="@dimen/dimen_10"
         android:layout_marginStart="@dimen/dimen_10"
@@ -27,6 +56,6 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-    
+    </androidx.core.widget.NestedScrollView>
 
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

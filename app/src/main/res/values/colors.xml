@@ -14,6 +14,7 @@
     <color name="textColorAccent">#A7A9AB</color>
 
     <!--  main color  -->
+    <color name="redPrimary">#FF0000</color>
     <color name="brownPrimary">#C67C4E</color>
     <color name="orangePrimary">#EA8025</color>
     <color name="bg">#E5E5E5</color>

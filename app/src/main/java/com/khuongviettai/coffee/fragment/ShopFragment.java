@@ -158,6 +158,4 @@ public class ShopFragment extends Fragment {
         context.startActivity(intent);
     }
 
-
-
 }
