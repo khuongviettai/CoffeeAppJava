@@ -33,11 +33,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         imageView = findViewById(R.id.img_pd);
-
         imageView.setOnClickListener(v -> onBackPressed());
-
         getDataIntent();
         setDataFoodDetail();
         initListener();
@@ -88,18 +85,19 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        binding.tvAddToCart.setOnClickListener(v -> onClickAddToCart());
+        binding.tvAddToCart.setOnClickListener(v -> onClickAddToCart(
+
+        ));
 
     }
 
+
+//    bottom sheet chose option
     public void onClickAddToCart() {
-
-
-        @SuppressLint("InflateParams") View viewDialog = getLayoutInflater().inflate(R.layout.layout_bottom_sheet_cart, null);
+        View viewDialog = getLayoutInflater().inflate(R.layout.layout_bottom_sheet_cart, null);
 
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(viewDialog);
-
         ImageView imgCart = viewDialog.findViewById(R.id.img_product_cart);
         TextView tvNameCart = viewDialog.findViewById(R.id.tv_product_name_cart);
         TextView tvPriceCart = viewDialog.findViewById(R.id.tv_product_price_cart);
@@ -114,7 +112,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         LoadImageProduct.loadUrl(product.getImage(), imgCart);
         tvNameCart.setText(product.getName());
 
-//        bug
+        //        check size have null
+
         if (product.getSize() == null || product.getSize().isEmpty()) {
             viewDialog.findViewById(R.id.vt_size).setVisibility(View.GONE);
             viewDialog.findViewById(R.id.tv_note_size).setVisibility(View.GONE);
@@ -122,12 +121,15 @@ public class ProductDetailActivity extends AppCompatActivity {
             for (int i = 0; i < product.getSize().size(); i++) {
                 RadioButton radioButton = new RadioButton(this);
                 radioButton.setText(product.getSize().get(i));
+                radioButton.setTag(i);
                 rg_size.addView(radioButton);
                 if (i == 0) {
                     radioButton.setChecked(true);
                 }
             }
         }
+
+//        check topping have null
 
         if (product.getTopping() == null || product.getTopping().isEmpty()) {
             viewDialog.findViewById(R.id.tv_topping).setVisibility(View.GONE);
@@ -136,6 +138,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             for (int i = 0; i < product.getTopping().size(); i++) {
                 RadioButton radioButton = new RadioButton(this);
                 radioButton.setText(product.getTopping().get(i));
+                radioButton.setTag(i);
                 rg_topping.addView(radioButton);
                 if (i == 0) {
                     radioButton.setChecked(true);
@@ -143,51 +146,109 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         }
 
-// bug
+//        total default
+
         int totalPrice = product.getRealPrice();
         String strTotalPrice = totalPrice + "";
         DecimalFormat formatter = new DecimalFormat("#,### đ");
         String formattedOldPrice = formatter.format(Double.parseDouble(strTotalPrice));
         tvPriceCart.setText(formattedOldPrice);
 
+//        logic chose option size
+
+        rg_size.setOnCheckedChangeListener((group, checkedId) -> {
+            int newPrice = product.getRealPrice();
+            int sizeOption = (int) rg_size.findViewById(checkedId).getTag();
+            if (sizeOption >= 0) {
+                newPrice += 10000 * (sizeOption);
+            }
+
+            int newTotalPrice = newPrice;
+            int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
+            if (toppingOption >= 1) {
+                newTotalPrice += 10000;
+            }
+
+            int count = Integer.parseInt(tvCount.getText().toString());
+            int totalPrice1 = newTotalPrice * count;
+            String strTotalPrice1 = totalPrice1 + "";
+            String formattedNewPrice = formatter.format(Double.parseDouble(strTotalPrice1));
+            tvPriceCart.setText(formattedNewPrice);
+        });
+
+//        logic chose option topping
+        rg_topping.setOnCheckedChangeListener((group, checkedId) -> {
+            int newPrice2 = product.getRealPrice();
+            int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
+            if (toppingOption >= 1) {
+                newPrice2 += 10000;
+            }
+
+            int newTotalPrice = newPrice2;
+            int sizeOption = rg_size.getCheckedRadioButtonId() != -1 ? (int) rg_size.findViewById(rg_size.getCheckedRadioButtonId()).getTag() : 0;
+            if (sizeOption >= 0) {
+                newTotalPrice += 10000 * (sizeOption);
+            }
+
+            int count = Integer.parseInt(tvCount.getText().toString());
+            int totalPrice1 = newTotalPrice * count;
+            String strTotalPrice1 = totalPrice1 + "";
+            String formattedNewPrice = formatter.format(Double.parseDouble(strTotalPrice1));
+            tvPriceCart.setText(formattedNewPrice);
+        });
+
+
+        //   btn +
+        tvAddCount.setOnClickListener(v -> {
+            int newCount = Integer.parseInt(tvCount.getText().toString()) + 1;
+            tvCount.setText(String.valueOf(newCount));
+            int newTotalPrice = product.getRealPrice();
+            int sizeOption = rg_size.getCheckedRadioButtonId() != -1 ? (int) rg_size.findViewById(rg_size.getCheckedRadioButtonId()).getTag() : 0;
+            if (sizeOption >= 0) {
+                newTotalPrice += 10000 * (sizeOption);
+            }
+            int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
+            if (toppingOption >= 1) {
+                newTotalPrice += 10000;
+            }
+            int totalPrice2 = newTotalPrice * newCount;
+            String strTotalPrice2 = totalPrice2 + "";
+            String formattedNewPrice = formatter.format(Integer.parseInt(strTotalPrice2));
+            tvPriceCart.setText(formattedNewPrice);
+        });
+
+
+        //        btn -
         tvSubtractCount.setOnClickListener(v -> {
             int count = Integer.parseInt(tvCount.getText().toString());
             if (count <= 1) {
                 return;
             }
-            int newCount = Integer.parseInt(tvCount.getText().toString()) - 1;
+            int newCount = count - 1;
             tvCount.setText(String.valueOf(newCount));
 
-            int totalPrice1 = product.getRealPrice() * newCount;
+            int newTotalPrice = product.getRealPrice();
+            int sizeOption = rg_size.getCheckedRadioButtonId() != -1 ? (int) rg_size.findViewById(rg_size.getCheckedRadioButtonId()).getTag() : 0;
+            if (sizeOption >= 0) {
+                newTotalPrice += 10000 * (sizeOption);
+            }
+            int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
+            if (toppingOption >= 1) {
+                newTotalPrice += 10000;
+            }
+            int totalPrice1 = newTotalPrice * newCount;
             String strTotalPrice1 = totalPrice1 + "";
             DecimalFormat formatter1 = new DecimalFormat("#,### đ");
-            String formattedOldPrice1 = formatter1.format(Double.parseDouble(strTotalPrice1));
-            tvPriceCart.setText(formattedOldPrice1);
-
-
+            String formattedNewPrice = formatter1.format(Double.parseDouble(strTotalPrice1));
+            tvPriceCart.setText(formattedNewPrice);
         });
 
-        tvAddCount.setOnClickListener(v -> {
-            int newCount = Integer.parseInt(tvCount.getText().toString()) + 1;
-            tvCount.setText(String.valueOf(newCount));
-            int totalPrice2 = product.getRealPrice() * newCount;
-            String strTotalPrice2 = totalPrice2 + "";
-            DecimalFormat formatter2 = new DecimalFormat("#,### đ");
-            String formattedOldPrice2 = formatter2.format(Double.parseDouble(strTotalPrice2));
-            tvPriceCart.setText(formattedOldPrice2);
 
-        });
         tvCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         tvAddCart.setOnClickListener(v -> {
             // Get selected size and topping
-            int sizeIndex = rg_size.indexOfChild(findViewById(rg_size.getCheckedRadioButtonId()));
-            String selectedSize = product.getSize().get(sizeIndex);
-            int toppingIndex = rg_topping.indexOfChild(findViewById(rg_topping.getCheckedRadioButtonId()));
-            String selectedTopping = product.getTopping().get(toppingIndex);
 
-            // Get selected quantity
-            int quantity = Integer.parseInt(tvCount.getText().toString());
 
             // Close dialog
             bottomSheetDialog.dismiss();
@@ -195,7 +256,4 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         bottomSheetDialog.show();
     }
-
-
-
 }
