@@ -15,13 +15,10 @@ import android.widget.TextView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.databinding.ActivityProductDetailBinding;
-import com.khuongviettai.coffee.model.CartItem;
-import com.khuongviettai.coffee.model.CartManager;
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -29,11 +26,17 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
     private Product product;
 
+    private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        imageView = findViewById(R.id.img_pd);
+
+        imageView.setOnClickListener(v -> onBackPressed());
 
         getDataIntent();
         setDataFoodDetail();
@@ -143,7 +146,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 // bug
         int totalPrice = product.getRealPrice();
         String strTotalPrice = totalPrice + "";
-        tvPriceCart.setText(strTotalPrice);
+        DecimalFormat formatter = new DecimalFormat("#,### đ");
+        String formattedOldPrice = formatter.format(Double.parseDouble(strTotalPrice));
+        tvPriceCart.setText(formattedOldPrice);
 
         tvSubtractCount.setOnClickListener(v -> {
             int count = Integer.parseInt(tvCount.getText().toString());
@@ -155,7 +160,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             int totalPrice1 = product.getRealPrice() * newCount;
             String strTotalPrice1 = totalPrice1 + "";
-            tvPriceCart.setText(strTotalPrice1);
+            DecimalFormat formatter1 = new DecimalFormat("#,### đ");
+            String formattedOldPrice1 = formatter1.format(Double.parseDouble(strTotalPrice1));
+            tvPriceCart.setText(formattedOldPrice1);
 
 
         });
@@ -163,10 +170,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvAddCount.setOnClickListener(v -> {
             int newCount = Integer.parseInt(tvCount.getText().toString()) + 1;
             tvCount.setText(String.valueOf(newCount));
-
             int totalPrice2 = product.getRealPrice() * newCount;
             String strTotalPrice2 = totalPrice2 + "";
-            tvPriceCart.setText(strTotalPrice2);
+            DecimalFormat formatter2 = new DecimalFormat("#,### đ");
+            String formattedOldPrice2 = formatter2.format(Double.parseDouble(strTotalPrice2));
+            tvPriceCart.setText(formattedOldPrice2);
 
         });
         tvCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
@@ -180,10 +188,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             // Get selected quantity
             int quantity = Integer.parseInt(tvCount.getText().toString());
-
-            // Add product to cart
-            CartItem cartItem = new CartItem(product, selectedSize, selectedTopping, quantity);
-            CartManager.getInstance().addCartItem(cartItem);
 
             // Close dialog
             bottomSheetDialog.dismiss();

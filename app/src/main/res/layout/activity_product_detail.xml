@@ -25,6 +25,7 @@
                     app:cardCornerRadius="@dimen/dimen_20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -36,6 +37,12 @@
                     android:layout_height="@dimen/dimen_250"
                     android:scaleType="centerCrop"
                      />
+                        <ImageView
+                            app:tint="@color/brownPrimary"
+                            android:id="@+id/img_pd"
+                            android:layout_width="@dimen/dimen_40"
+                            android:layout_height="@dimen/dimen_40"
+                            android:src="@drawable/arrow_back"/>
                     <TextView
                         android:id="@+id/tv_sale_off"
                         android:layout_width="wrap_content"
