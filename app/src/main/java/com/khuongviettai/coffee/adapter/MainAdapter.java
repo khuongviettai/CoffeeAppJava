@@ -3,7 +3,8 @@ package com.khuongviettai.coffee.adapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.Lifecycle;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.khuongviettai.coffee.fragment.CartFragment;
 import com.khuongviettai.coffee.fragment.HistoryFragment;
@@ -11,15 +12,17 @@ import com.khuongviettai.coffee.fragment.HomeFragment;
 import com.khuongviettai.coffee.fragment.ProfileFragment;
 import com.khuongviettai.coffee.fragment.ShopFragment;
 
-public class MainAdapter extends FragmentStatePagerAdapter {
-    public MainAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+public class MainAdapter extends FragmentStateAdapter {
+    private static final int NUM_PAGES = 5;
+
+    public MainAdapter(FragmentManager fragmentManager, Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        switch (position){
+    public Fragment createFragment(int position) {
+        switch (position) {
             case 0:
                 return new HomeFragment();
             case 1:
@@ -30,14 +33,14 @@ public class MainAdapter extends FragmentStatePagerAdapter {
                 return new HistoryFragment();
             case 4:
                 return new ProfileFragment();
-
             default:
-                return new HomeFragment();
+                return null;
         }
     }
 
     @Override
-    public int getCount() {
-        return 5;
+    public int getItemCount() {
+        return NUM_PAGES;
     }
 }
+

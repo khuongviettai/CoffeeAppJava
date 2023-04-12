@@ -62,6 +62,7 @@ public class ShopFragment extends Fragment {
         recyclerView.setAdapter(productAdapter);
         loadDataFromApi();
 
+
         // set up search
         initListener();
         return fragmentShopBinding.getRoot();

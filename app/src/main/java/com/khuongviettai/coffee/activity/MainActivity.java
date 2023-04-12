@@ -2,20 +2,20 @@ package com.khuongviettai.coffee.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.adapter.MainAdapter;
 import com.khuongviettai.coffee.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private ViewPager viewPager;
+    private ViewPager2 viewPager;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -26,18 +26,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.vpg_main);
         bottomNavigationView = findViewById(R.id.menu_bottom);
 
-        MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager(), getLifecycle());
         viewPager.setAdapter(mainAdapter);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         bottomNavigationView.getMenu().findItem(R.id.btn_home).setChecked(true);
                         break;
@@ -55,15 +50,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
         });
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.btn_home:
                         viewPager.setCurrentItem(0);
                         break;
@@ -80,10 +72,8 @@ public class MainActivity extends AppCompatActivity {
                         viewPager.setCurrentItem(4);
                         break;
                 }
-                return false;
+                return true;
             }
         });
-
     }
-
 }

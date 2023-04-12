@@ -1,6 +1,7 @@
 package com.khuongviettai.coffee.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 
 import android.annotation.SuppressLint;
@@ -14,11 +15,13 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
+import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.ActivityProductDetailBinding;
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -33,7 +36,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        imageView = findViewById(R.id.img_pd);
+        imageView = binding.imgPd;
         imageView.setOnClickListener(v -> onBackPressed());
         getDataIntent();
         setDataFoodDetail();
@@ -81,20 +84,22 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.tvFoodName.setText(product.getName());
         binding.tvProductDescription.setText(product.getDescription());
 
+        setStatusButtonAddToCart();
+
 
     }
 
-    private void initListener() {
-        binding.tvAddToCart.setOnClickListener(v -> onClickAddToCart(
 
-        ));
-
-    }
 
 
 //    bottom sheet chose option
     public void onClickAddToCart() {
-        View viewDialog = getLayoutInflater().inflate(R.layout.layout_bottom_sheet_cart, null);
+
+        if (isProductInCart()) {
+            return;
+        }
+
+        @SuppressLint("InflateParams") View viewDialog = getLayoutInflater().inflate(R.layout.layout_bottom_sheet_cart, null);
 
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(viewDialog);
@@ -111,6 +116,10 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         LoadImageProduct.loadUrl(product.getImage(), imgCart);
         tvNameCart.setText(product.getName());
+        product.setCount(1);
+        product.setSaveTopping(0);
+        product.setSaveSize(0);
+        product.setTotalPrice(0);
 
         //        check size have null
 
@@ -154,6 +163,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         String formattedOldPrice = formatter.format(Double.parseDouble(strTotalPrice));
         tvPriceCart.setText(formattedOldPrice);
 
+
 //        logic chose option size
 
         rg_size.setOnCheckedChangeListener((group, checkedId) -> {
@@ -162,6 +172,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             if (sizeOption >= 0) {
                 newPrice += 10000 * (sizeOption);
             }
+            product.setSaveSize(sizeOption);
 
             int newTotalPrice = newPrice;
             int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
@@ -174,6 +185,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             String strTotalPrice1 = totalPrice1 + "";
             String formattedNewPrice = formatter.format(Double.parseDouble(strTotalPrice1));
             tvPriceCart.setText(formattedNewPrice);
+            product.setTotalPrice(newPrice);;
         });
 
 //        logic chose option topping
@@ -183,6 +195,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             if (toppingOption >= 1) {
                 newPrice2 += 10000;
             }
+            product.setSaveTopping(toppingOption);
 
             int newTotalPrice = newPrice2;
             int sizeOption = rg_size.getCheckedRadioButtonId() != -1 ? (int) rg_size.findViewById(rg_size.getCheckedRadioButtonId()).getTag() : 0;
@@ -195,6 +208,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             String strTotalPrice1 = totalPrice1 + "";
             String formattedNewPrice = formatter.format(Double.parseDouble(strTotalPrice1));
             tvPriceCart.setText(formattedNewPrice);
+            product.setTotalPrice(newPrice2);;
         });
 
 
@@ -211,10 +225,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             if (toppingOption >= 1) {
                 newTotalPrice += 10000;
             }
+            product.setCount(newCount);
             int totalPrice2 = newTotalPrice * newCount;
             String strTotalPrice2 = totalPrice2 + "";
             String formattedNewPrice = formatter.format(Integer.parseInt(strTotalPrice2));
             tvPriceCart.setText(formattedNewPrice);
+
         });
 
 
@@ -236,6 +252,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             if (toppingOption >= 1) {
                 newTotalPrice += 10000;
             }
+            product.setCount(newCount);
             int totalPrice1 = newTotalPrice * newCount;
             String strTotalPrice1 = totalPrice1 + "";
             DecimalFormat formatter1 = new DecimalFormat("#,### đ");
@@ -247,13 +264,38 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         tvAddCart.setOnClickListener(v -> {
-            // Get selected size and topping
-
-
-            // Close dialog
+            ProductDataBase.getInstance(ProductDetailActivity.this).productDAO().insert(product);
             bottomSheetDialog.dismiss();
+            setStatusButtonAddToCart();
+
+
         });
 
         bottomSheetDialog.show();
     }
+
+    private void initListener() {
+        binding.tvAddToCart.setOnClickListener(v -> onClickAddToCart());
+    }
+
+
+    private void setStatusButtonAddToCart() {
+        if (isProductInCart()) {
+            binding.tvAddToCart.setBackgroundResource(R.drawable.bg_disable_shape_corner_6);
+            binding.tvAddToCart.setText(getString(R.string.added_to_cart));
+            binding.tvAddToCart.setTextColor(ContextCompat.getColor(this, R.color.textColorPrimary));
+
+        } else {
+            binding.tvAddToCart.setBackgroundResource(R.drawable.bg_brown_shape_corner_6);
+            binding.tvAddToCart.setText(getString(R.string.add_to_cart));
+            binding.tvAddToCart.setTextColor(ContextCompat.getColor(this, R.color.white));
+        }
+    }
+
+
+    private boolean isProductInCart() {
+        List<Product> list = ProductDataBase.getInstance(this).productDAO().checkProductInCart(product.get_id());
+        return list != null && !list.isEmpty();
+    }
+
 }

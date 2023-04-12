@@ -1,9 +1,16 @@
 package com.khuongviettai.coffee.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.List;
 
+@Entity(tableName = "product")
 public class Product implements Serializable {
+    @PrimaryKey
+    @NonNull
     private String _id;
     private String name;
     private int price;
@@ -14,8 +21,12 @@ public class Product implements Serializable {
     private List<String> size;
     private String description;
     private String category;
+    private int count;
+    private int saveTopping;
+    private int saveSize;
+    private int totalPrice;
 
-    public Product(String _id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category) {
+    public Product(@NonNull String _id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category, int count, int saveTopping, int saveSize, int totalPrice) {
         this._id = _id;
         this.name = name;
         this.price = price;
@@ -26,6 +37,10 @@ public class Product implements Serializable {
         this.size = size;
         this.description = description;
         this.category = category;
+        this.count = count;
+        this.saveTopping = saveTopping;
+        this.saveSize = saveSize;
+        this.totalPrice = totalPrice;
     }
 
     public int getRealPrice() {
@@ -113,5 +128,37 @@ public class Product implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getSaveTopping() {
+        return saveTopping;
+    }
+
+    public void setSaveTopping(int saveTopping) {
+        this.saveTopping = saveTopping;
+    }
+
+    public int getSaveSize() {
+        return saveSize;
+    }
+
+    public void setSaveSize(int saveSize) {
+        this.saveSize = saveSize;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

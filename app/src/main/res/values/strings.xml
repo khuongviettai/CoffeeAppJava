@@ -35,11 +35,15 @@
     <string name="price_0">0 VND</string>
     <string name="order_cart">Order</string>
     <string name="delete">Delete</string>
+    <string name="confirm_delete">Confirm delete</string>
+    <string name="message_delete">Bạn có chắc chắn muốn xóa món ăn này không?</string>
     
     <!--  Profile  -->
     <string name="utilities">Utilities</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="policy">Policy</string>
+
+
     
     
     <!--  Login Register  -->
