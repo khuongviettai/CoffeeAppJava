@@ -1,10 +1,15 @@
 package com.khuongviettai.coffee.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
+import com.khuongviettai.coffee.adapter.ProductAdapter;
+import com.khuongviettai.coffee.database.ApiProduct;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.ActivityProductDetailBinding;
 import com.khuongviettai.coffee.listener.ReloadListCartEvent;
@@ -25,14 +32,23 @@ import com.khuongviettai.coffee.utils.LoadImageProduct;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ProductDetailActivity extends AppCompatActivity {
 
     private ActivityProductDetailBinding binding;
     private Product product;
-    
+
+    private RecyclerView recyclerView;
+    private ProductAdapter productAdapter;
+    private List<Product> productList = new ArrayList<>();
 
     private ImageView imageView;
 
@@ -47,7 +63,67 @@ public class ProductDetailActivity extends AppCompatActivity {
         setDataFoodDetail();
         initListener();
 
+//        san pham goi y
+
+        recyclerView = findViewById(R.id.rcv_other_product);
+        productAdapter = new ProductAdapter(productList, this::goToProductDetail);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(productAdapter);
+//        EventBus.getDefault().post(new ReloadListCartEvent());
+        loadDataFromApi();
+
+
+
     }
+
+    private void goToProductDetail(@NonNull Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        startActivity(this, ProductDetailActivity.class, bundle);
+    }
+
+    public static void startActivity(Context context, Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent(context, clz);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+
+
+    private void loadDataFromApi() {
+        ApiProduct.apiProduct.call("product").enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful()) {
+                    List<Product> allProducts = response.body();
+                    if (allProducts != null && !allProducts.isEmpty()) {
+                        // Get a random number between 2 and 6
+                        int randomCount = (int) (Math.random() * 5) + 2;
+
+                        // Shuffle the products list
+                        Collections.shuffle(allProducts);
+
+                        // Get a sublist of the randomly selected products
+                        List<Product> limitedProducts = allProducts.subList(0, Math.min(allProducts.size(), randomCount));
+
+                        productList.clear();
+                        productList.addAll(limitedProducts);
+
+                        productAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                // Handle the failure
+            }
+        });
+    }
+
+
     private void getDataIntent() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

@@ -29,6 +29,7 @@
     <string name="label_quantity_1">1</string>
     <string name="quantity">Quantity</string>
     <string name="cancel">Cancel</string>
+    <string name="recommended_products">Recommended products</string>
 
     <!--  Cart  -->
     <string name="total">Total:</string>
