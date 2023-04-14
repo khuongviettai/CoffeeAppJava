@@ -17,8 +17,14 @@ import com.khuongviettai.coffee.adapter.CartAdapter;
 import com.khuongviettai.coffee.database.ProductDAO;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.FragmentCartBinding;
+import com.khuongviettai.coffee.listener.ReloadListCartEvent;
 import com.khuongviettai.coffee.model.Product;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +40,13 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCartBinding.inflate(inflater, container, false);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         displayListInCart();
+
+
 
         return binding.getRoot();
     }
@@ -51,7 +63,7 @@ public class CartFragment extends Fragment {
     }
 
     private void initDataCart() {
-        productList = ProductDataBase.getInstance(getActivity()).productDAO().list();
+        productList = ProductDataBase.getInstance(getActivity()).productDAO().  list();
         if (productList == null || productList.isEmpty()) {
             return;
         }
@@ -85,8 +97,8 @@ public class CartFragment extends Fragment {
     }
 
     private void calculateTotalPrice() {
-        List<Product> listCart = ProductDataBase.getInstance(getActivity()).productDAO().list();
-        if (listCart == null || listCart.isEmpty()) {
+        List<Product> listFoodCart = ProductDataBase.getInstance(getActivity()).productDAO().list();
+        if (listFoodCart == null || listFoodCart.isEmpty()) {
             String strZero = 0 + "";
             binding.tvTotalPrice.setText(strZero);
             mAmount = 0;
@@ -94,13 +106,16 @@ public class CartFragment extends Fragment {
         }
 
         int totalPrice = 0;
-        for (Product product : listCart) {
-            totalPrice += product.getPrice();
+        for (Product food : listFoodCart) {
+            totalPrice = totalPrice + food.getTotalPrice();
         }
 
+
         String strTotalPrice = totalPrice + "";
-        binding.tvTotalPrice.setText(strTotalPrice);
-        mAmount = totalPrice;
+        DecimalFormat formatter = new DecimalFormat("#,### đ");
+        String formattedOldPrice = formatter.format(Double.parseDouble(strTotalPrice));
+        binding.tvTotalPrice.setText(formattedOldPrice);
+//        mAmount = totalPrice;
     }
 
     private void deleteFromCart(Product product, int position) {
@@ -117,6 +132,21 @@ public class CartFragment extends Fragment {
                 .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.dismiss())
                 .show();
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ReloadListCartEvent event) {
+        displayListInCart();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+
 
 }
 

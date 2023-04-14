@@ -12,6 +12,7 @@ import com.khuongviettai.coffee.listener.ClickItemListener;
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -45,14 +46,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         LoadImageProduct.loadUrl(product.getImage(), holder.binding.imgProductCart);
         holder.binding.tvProductNameCart.setText(product.getName());
 
-        String strPriceCart = product.getPrice() + "";
-        if (product.getSale() > 0) {
-            strPriceCart = product.getRealPrice() +"";
-        }
-        holder.binding.tvProductPriceCart.setText(strPriceCart);
+        DecimalFormat formatter = new DecimalFormat("#,###đ");
+
+
         holder.binding.tvCount.setText(String.valueOf(product.getCount()));
-        holder.binding.tvProductToppingCart.setText(String.valueOf((product.getSaveTopping())));
-        holder.binding.tvProductSizeCart.setText(String.valueOf(product.getSaveSize()));
+        holder.binding.tvProductToppingCart.setText("Topping: " + String.valueOf((product.getSaveTopping())));
+        holder.binding.tvProductSizeCart.setText("Size: " + String.valueOf(product.getSaveSize()));
+
+        String strCount2 = holder.binding.tvCount.getText().toString();
+        int counts = Integer.parseInt(strCount2);
+        int Price =  (product.getTotalPrice() / counts);
+        String formattedOldPrice = formatter.format(Price);
+        holder.binding.tvProductPriceCart.setText(String.valueOf(formattedOldPrice + "  X" + "("+ String.valueOf(product.getCount())) + ")") ;
+
+
+
 
         holder.binding.tvSubtract.setOnClickListener(v -> {
             String strCount = holder.binding.tvCount.getText().toString();
@@ -62,6 +70,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
             int newCount = count - 1;
             holder.binding.tvCount.setText(String.valueOf(newCount));
+
+            int totalPrice =  Price * newCount;
+            product.setCount(newCount);
+            product.setTotalPrice(totalPrice);
+
             clickItemListener.clickUpdate(product, holder.getAdapterPosition());
         });
 
@@ -69,7 +82,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             int newCount = Integer.parseInt(holder.binding.tvCount.getText().toString()) + 1;
             holder.binding.tvCount.setText(String.valueOf(newCount));
 
-            int totalPrice = product.getRealPrice() * newCount;
+
+            int totalPrice = Price * newCount;
+            product.setCount(newCount);
+            product.setTotalPrice(totalPrice);
 
             clickItemListener.clickUpdate(product, holder.getAdapterPosition());
         });

@@ -36,7 +36,7 @@
     <string name="order_cart">Order</string>
     <string name="delete">Delete</string>
     <string name="confirm_delete">Confirm delete</string>
-    <string name="message_delete">Bạn có chắc chắn muốn xóa món ăn này không?</string>
+    <string name="message_delete">Are you sure you want to delete?</string>
     
     <!--  Profile  -->
     <string name="utilities">Utilities</string>

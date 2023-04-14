@@ -12,13 +12,17 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.ActivityProductDetailBinding;
+import com.khuongviettai.coffee.listener.ReloadListCartEvent;
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -28,6 +32,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private ActivityProductDetailBinding binding;
     private Product product;
+    
 
     private ImageView imageView;
 
@@ -117,9 +122,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         LoadImageProduct.loadUrl(product.getImage(), imgCart);
         tvNameCart.setText(product.getName());
         product.setCount(1);
-        product.setSaveTopping(0);
-        product.setSaveSize(0);
-        product.setTotalPrice(0);
+        product.setSaveTopping("Không Topping");
+        product.setSaveSize("S");
+
 
         //        check size have null
 
@@ -162,6 +167,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         DecimalFormat formatter = new DecimalFormat("#,### đ");
         String formattedOldPrice = formatter.format(Double.parseDouble(strTotalPrice));
         tvPriceCart.setText(formattedOldPrice);
+        product.setTotalPrice(totalPrice);
 
 
 //        logic chose option size
@@ -171,8 +177,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             int sizeOption = (int) rg_size.findViewById(checkedId).getTag();
             if (sizeOption >= 0) {
                 newPrice += 10000 * (sizeOption);
+                String selectedSize = product.getSize().get(sizeOption);
+                product.setSaveSize(selectedSize);
+
             }
-            product.setSaveSize(sizeOption);
+
+
+
 
             int newTotalPrice = newPrice;
             int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
@@ -182,10 +193,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             int count = Integer.parseInt(tvCount.getText().toString());
             int totalPrice1 = newTotalPrice * count;
+            product.setTotalPrice(totalPrice1);
             String strTotalPrice1 = totalPrice1 + "";
             String formattedNewPrice = formatter.format(Double.parseDouble(strTotalPrice1));
             tvPriceCart.setText(formattedNewPrice);
-            product.setTotalPrice(newPrice);;
+
+
         });
 
 //        logic chose option topping
@@ -194,21 +207,27 @@ public class ProductDetailActivity extends AppCompatActivity {
             int toppingOption = rg_topping.getCheckedRadioButtonId() != -1 ? (int) rg_topping.findViewById(rg_topping.getCheckedRadioButtonId()).getTag() : 0;
             if (toppingOption >= 1) {
                 newPrice2 += 10000;
+                String selectedTopping = product.getTopping().get(toppingOption);
+                product.setSaveTopping(selectedTopping);
+
+
             }
-            product.setSaveTopping(toppingOption);
+//            product.setSaveTopping(toppingOption);
 
             int newTotalPrice = newPrice2;
             int sizeOption = rg_size.getCheckedRadioButtonId() != -1 ? (int) rg_size.findViewById(rg_size.getCheckedRadioButtonId()).getTag() : 0;
             if (sizeOption >= 0) {
                 newTotalPrice += 10000 * (sizeOption);
+
             }
 
             int count = Integer.parseInt(tvCount.getText().toString());
             int totalPrice1 = newTotalPrice * count;
+            product.setTotalPrice(totalPrice1);
             String strTotalPrice1 = totalPrice1 + "";
             String formattedNewPrice = formatter.format(Double.parseDouble(strTotalPrice1));
             tvPriceCart.setText(formattedNewPrice);
-            product.setTotalPrice(newPrice2);;
+
         });
 
 
@@ -227,6 +246,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
             product.setCount(newCount);
             int totalPrice2 = newTotalPrice * newCount;
+            product.setTotalPrice(totalPrice2);
             String strTotalPrice2 = totalPrice2 + "";
             String formattedNewPrice = formatter.format(Integer.parseInt(strTotalPrice2));
             tvPriceCart.setText(formattedNewPrice);
@@ -254,6 +274,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
             product.setCount(newCount);
             int totalPrice1 = newTotalPrice * newCount;
+            product.setTotalPrice(totalPrice1);
             String strTotalPrice1 = totalPrice1 + "";
             DecimalFormat formatter1 = new DecimalFormat("#,### đ");
             String formattedNewPrice = formatter1.format(Double.parseDouble(strTotalPrice1));
@@ -267,6 +288,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             ProductDataBase.getInstance(ProductDetailActivity.this).productDAO().insert(product);
             bottomSheetDialog.dismiss();
             setStatusButtonAddToCart();
+//            reload khi them san pham vao gio hang
+            EventBus.getDefault().post(new ReloadListCartEvent());
 
 
         });
@@ -297,5 +320,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         List<Product> list = ProductDataBase.getInstance(this).productDAO().checkProductInCart(product.get_id());
         return list != null && !list.isEmpty();
     }
+
 
 }

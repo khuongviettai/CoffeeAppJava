@@ -22,11 +22,11 @@ public class Product implements Serializable {
     private String description;
     private String category;
     private int count;
-    private int saveTopping;
-    private int saveSize;
+    private String saveTopping;
+    private String saveSize;
     private int totalPrice;
 
-    public Product(@NonNull String _id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category, int count, int saveTopping, int saveSize, int totalPrice) {
+    public Product(@NonNull String _id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category, int count, String saveTopping, String saveSize, int totalPrice) {
         this._id = _id;
         this.name = name;
         this.price = price;
@@ -138,19 +138,19 @@ public class Product implements Serializable {
         this.count = count;
     }
 
-    public int getSaveTopping() {
+    public String getSaveTopping() {
         return saveTopping;
     }
 
-    public void setSaveTopping(int saveTopping) {
+    public void setSaveTopping(String saveTopping) {
         this.saveTopping = saveTopping;
     }
 
-    public int getSaveSize() {
+    public String getSaveSize() {
         return saveSize;
     }
 
-    public void setSaveSize(int saveSize) {
+    public void setSaveSize(String saveSize) {
         this.saveSize = saveSize;
     }
 
