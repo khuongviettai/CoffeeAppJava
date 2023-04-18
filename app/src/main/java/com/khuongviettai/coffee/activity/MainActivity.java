@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.khuongviettai.coffee.R;
@@ -75,5 +76,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        showConfirmExitApp();
+    }
+
+    private void showConfirmExitApp() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.app_name))
+                .content(getString(R.string.msg_exit_app))
+                .positiveText(getString(R.string.agree))
+                .onPositive((dialog, which) -> finish())
+                .negativeText(getString(R.string.cancel))
+                .cancelable(false)
+                .show();
     }
 }

@@ -128,7 +128,7 @@ public class ShopFragment extends Fragment {
         }
         productList.clear();
         for (Product product : productList) {
-            if (product.getName().toLowerCase().contains(strKey.toLowerCase())) {
+            if (product.getName().contains(strKey.toLowerCase())) {
                 productList.add(product);
             }
         }

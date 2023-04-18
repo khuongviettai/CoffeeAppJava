@@ -7,17 +7,23 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.util.StringUtil;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.adapter.CartAdapter;
 import com.khuongviettai.coffee.database.ProductDAO;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.FragmentCartBinding;
 import com.khuongviettai.coffee.listener.ReloadListCartEvent;
+import com.khuongviettai.coffee.model.Order;
 import com.khuongviettai.coffee.model.Product;
 
 import org.greenrobot.eventbus.EventBus;
@@ -144,6 +150,70 @@ public class CartFragment extends Fragment {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+
+    public void onClickOrderCart() {
+        if (getActivity() == null) {
+            return;
+        }
+
+        if (productList == null || productList.isEmpty()) {
+            return;
+        }
+
+        @SuppressLint("InflateParams") View viewDialog = getLayoutInflater().inflate(R.layout.layout_bottom_sheet_order, null);
+
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+        bottomSheetDialog.setContentView(viewDialog);
+        bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        // init ui
+        TextView tvFoodsOrder = viewDialog.findViewById(R.id.tv_foods_order);
+        TextView tvPriceOrder = viewDialog.findViewById(R.id.tv_price_order);
+        TextView edtNameOrder = viewDialog.findViewById(R.id.edt_name_order);
+        TextView edtPhoneOrder = viewDialog.findViewById(R.id.edt_phone_order);
+        TextView edtAddressOrder = viewDialog.findViewById(R.id.edt_address_order);
+        TextView tvCancelOrder = viewDialog.findViewById(R.id.tv_cancel_order);
+        TextView tvCreateOrder = viewDialog.findViewById(R.id.tv_create_order);
+
+        // Set data
+        tvFoodsOrder.setText(getStringListFoodsOrder());
+        tvPriceOrder.setText(binding.tvTotalPrice.getText().toString());
+
+        // Set listener
+        tvCancelOrder.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
+        tvCreateOrder.setOnClickListener(v -> {
+            String strName = edtNameOrder.getText().toString().trim();
+            String strPhone = edtPhoneOrder.getText().toString().trim();
+            String strAddress = edtAddressOrder.getText().toString().trim();
+
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private String getStringListFoodsOrder() {
+        if (productList == null || productList.isEmpty()) {
+            return "";
+        }
+        StringBuilder resultBuilder = new StringBuilder();
+        for (Product product : productList) {
+            if (resultBuilder.length() > 0) {
+                resultBuilder.append("\n");
+            }
+            resultBuilder.append("- ")
+                    .append(product.getName())
+                    .append(" (")
+                    .append(product.getRealPrice())
+                    .append(") ")
+                    .append("- ")
+                    .append(getString(R.string.quantity))
+                    .append(" ")
+                    .append(product.getCount());
+        }
+        return resultBuilder.toString();
     }
 
 

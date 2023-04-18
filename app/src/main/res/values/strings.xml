@@ -7,7 +7,16 @@
     <string name="cart">Cart</string>
     <string name="history">History</string>
     <string name="profile">Profile</string>
+    <string name="order_detail">Order Detail</string>
+    <string name="payment_method">Payment method</string>
+    <string name="payment_cash">Cash</string>
+    <string name="address">Address</string>
+    <string name="message_enter_info_order">Please complete all information</string>
 
+
+    <!--  Show mess  -->
+    <string name="msg_exit_app">Do you want to exit the application?</string>
+    <string name="agree">Agree</string>
 
     <!--  OnBoarding  -->
     <string name="get_start">Get Start</string>

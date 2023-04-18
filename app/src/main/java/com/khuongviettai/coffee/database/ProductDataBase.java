@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 import com.khuongviettai.coffee.model.Converters;
 import com.khuongviettai.coffee.model.Product;
 
-@Database(entities = {Product.class}, version = 1)
+@Database(entities = {Product.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class ProductDataBase extends RoomDatabase {
 
