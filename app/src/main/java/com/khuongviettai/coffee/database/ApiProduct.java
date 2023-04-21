@@ -3,6 +3,7 @@ package com.khuongviettai.coffee.database;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.khuongviettai.coffee.model.Product;
+import com.khuongviettai.coffee.model.User;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiProduct {
@@ -24,4 +26,11 @@ public interface ApiProduct {
 
     @GET("product")
     Call<List<Product>> call(@Query("product") String products);
+
+    @GET("user")
+    Call<List<User>> getUserList(@Query("userName") String userName);
+
+    @POST("user/add")
+    Call<List<User>> postUser(@Query("user") String userName);
+
 }

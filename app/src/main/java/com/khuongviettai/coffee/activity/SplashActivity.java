@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (checkFirstInstallApp.getBooleanValue(KEY_FIRST_INSTALL_APP)) {
-                    startActivity(MainActivity.class);
+                    startActivity(LoginActivity.class);
                 }
                 else {
                     startActivity(OnboardingActivity.class);

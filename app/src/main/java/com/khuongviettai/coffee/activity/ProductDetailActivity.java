@@ -70,7 +70,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(productAdapter);
-//        EventBus.getDefault().post(new ReloadListCartEvent());
+
         loadDataFromApi();
 
 
@@ -166,8 +166,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.tvProductDescription.setText(product.getDescription());
 
         setStatusButtonAddToCart();
-
-
     }
 
 
@@ -358,17 +356,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
 
-        tvCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
 
         tvAddCart.setOnClickListener(v -> {
             ProductDataBase.getInstance(ProductDetailActivity.this).productDAO().insert(product);
-            bottomSheetDialog.dismiss();
+
             setStatusButtonAddToCart();
 //            reload khi them san pham vao gio hang
             EventBus.getDefault().post(new ReloadListCartEvent());
-
+            bottomSheetDialog.dismiss();
 
         });
+        tvCancel.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
         bottomSheetDialog.show();
     }

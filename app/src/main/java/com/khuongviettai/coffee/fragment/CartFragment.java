@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.room.util.StringUtil;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.khuongviettai.coffee.databinding.FragmentCartBinding;
 import com.khuongviettai.coffee.listener.ReloadListCartEvent;
 import com.khuongviettai.coffee.model.Order;
 import com.khuongviettai.coffee.model.Product;
+import com.khuongviettai.coffee.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,7 +51,7 @@ public class CartFragment extends Fragment {
         }
 
         displayListInCart();
-
+        binding.tvOrderCart.setOnClickListener(v -> onClickOrderCart());
 
 
         return binding.getRoot();
@@ -157,18 +157,15 @@ public class CartFragment extends Fragment {
         if (getActivity() == null) {
             return;
         }
-
         if (productList == null || productList.isEmpty()) {
             return;
         }
-
         @SuppressLint("InflateParams") View viewDialog = getLayoutInflater().inflate(R.layout.layout_bottom_sheet_order, null);
-
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
         bottomSheetDialog.setContentView(viewDialog);
         bottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
 
-        // init ui
+
         TextView tvFoodsOrder = viewDialog.findViewById(R.id.tv_foods_order);
         TextView tvPriceOrder = viewDialog.findViewById(R.id.tv_price_order);
         TextView edtNameOrder = viewDialog.findViewById(R.id.edt_name_order);
@@ -177,46 +174,41 @@ public class CartFragment extends Fragment {
         TextView tvCancelOrder = viewDialog.findViewById(R.id.tv_cancel_order);
         TextView tvCreateOrder = viewDialog.findViewById(R.id.tv_create_order);
 
-        // Set data
+
         tvFoodsOrder.setText(getStringListFoodsOrder());
         tvPriceOrder.setText(binding.tvTotalPrice.getText().toString());
-
-        // Set listener
         tvCancelOrder.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
 
         tvCreateOrder.setOnClickListener(v -> {
             String strName = edtNameOrder.getText().toString().trim();
             String strPhone = edtPhoneOrder.getText().toString().trim();
             String strAddress = edtAddressOrder.getText().toString().trim();
 
+
         });
 
         bottomSheetDialog.show();
+
+
     }
 
     private String getStringListFoodsOrder() {
         if (productList == null || productList.isEmpty()) {
             return "";
         }
-        StringBuilder resultBuilder = new StringBuilder();
+        String result = "";
         for (Product product : productList) {
-            if (resultBuilder.length() > 0) {
-                resultBuilder.append("\n");
+            if (StringUtil.isEmpty(result)) {
+                result = "- " + product.getName() + " (" + product.getRealPrice() + "" + ") "
+                        + "- " + getString(R.string.quantity) + " " + product.getCount() + "- " + getString(R.string.topping) + " " + product.getSaveTopping() + "- " + getString(R.string.size) + " " + product.getSaveSize();
+            } else {
+                result = result + "\n" + "- " + product.getName() + " (" + product.getRealPrice() + "" + ") "
+                        + "- " + getString(R.string.quantity) + " " + product.getCount() + "- " + getString(R.string.topping) + " " + product.getSaveTopping() + "- " + getString(R.string.size) + " " + product.getSaveSize();
             }
-            resultBuilder.append("- ")
-                    .append(product.getName())
-                    .append(" (")
-                    .append(product.getRealPrice())
-                    .append(") ")
-                    .append("- ")
-                    .append(getString(R.string.quantity))
-                    .append(" ")
-                    .append(product.getCount());
         }
-        return resultBuilder.toString();
+        return result;
     }
-
-
 
 }
 
