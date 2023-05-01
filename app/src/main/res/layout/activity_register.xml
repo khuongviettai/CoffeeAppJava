@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/rst_password"
                     android:inputType="textPassword"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"
@@ -114,6 +115,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/rst_confirm"
                     android:inputType="textPassword"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"

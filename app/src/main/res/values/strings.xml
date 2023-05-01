@@ -69,6 +69,14 @@
     <string name="register">Register</string>
     <string name="confirm_password">Confirm password</string>
     <string name="full_name">Full name</string>
+    
+    <string name="msg_name">Please enter your name</string>
+    <string name="msg_phone">Please enter your phone</string>
+    <string name="msg_password">Please enter your password</string>
+    <string name="msg_confirm_password">Two passwords do not match</string>
+    <string name="msg_phone_exist">Phone number already exists</string>
+    <string name="msg_register_success">Registration Success</string>
+    <string name="msg_register_failed">Registration failed</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

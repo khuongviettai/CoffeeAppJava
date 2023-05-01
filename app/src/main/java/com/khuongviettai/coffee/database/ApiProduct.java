@@ -10,6 +10,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -29,8 +30,10 @@ public interface ApiProduct {
 
     @GET("user")
     Call<List<User>> getUserList(@Query("userName") String userName);
+    @GET("user")
+    Call<Boolean> checkPhoneExistence(@Query("phone") String phone);
 
-    @POST("user/add")
-    Call<List<User>> postUser(@Query("user") String userName);
+    @POST("/user/add")
+    Call<User> registerUser(@Body User user);
 
 }

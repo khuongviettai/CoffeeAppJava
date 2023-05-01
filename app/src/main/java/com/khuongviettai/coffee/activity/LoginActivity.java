@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Can't login! Please try again", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Unstable network! Please try again later", Toast.LENGTH_LONG).show();
             }
         });
     }
