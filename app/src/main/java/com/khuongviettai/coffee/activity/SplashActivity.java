@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -22,16 +21,13 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         CheckFirstInstallApp checkFirstInstallApp = new CheckFirstInstallApp(this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (checkFirstInstallApp.getBooleanValue(KEY_FIRST_INSTALL_APP)) {
-                    startActivity(LoginActivity.class);
-                }
-                else {
-                    startActivity(OnboardingActivity.class);
-                    checkFirstInstallApp.putBooleanValue(KEY_FIRST_INSTALL_APP, true);
-                }
+        new Handler().postDelayed(() -> {
+            if (checkFirstInstallApp.getBooleanValue(KEY_FIRST_INSTALL_APP)) {
+                startActivity(LoginActivity.class);
+            }
+            else {
+                startActivity(OnboardingActivity.class);
+                checkFirstInstallApp.putBooleanValue(KEY_FIRST_INSTALL_APP, true);
             }
         }, 2000);
     }
