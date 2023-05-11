@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
@@ -46,15 +46,18 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
     private Product product;
 
+    private RecyclerView recyclerView;
     private ProductAdapter productAdapter;
-    private final List<Product> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
+
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ImageView imageView = binding.imgPd;
+        imageView = binding.imgPd;
         imageView.setOnClickListener(v -> onBackPressed());
         getDataIntent();
         setDataFoodDetail();
@@ -62,7 +65,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 //        san pham goi y
 
-        RecyclerView recyclerView = findViewById(R.id.rcv_other_product);
+        recyclerView = findViewById(R.id.rcv_other_product);
         productAdapter = new ProductAdapter(productList, this::goToProductDetail);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -91,9 +94,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void loadDataFromApi() {
         ApiProduct.apiProduct.call("product").enqueue(new Callback<List<Product>>() {
-            @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
                     List<Product> allProducts = response.body();
                     if (allProducts != null && !allProducts.isEmpty()) {
@@ -115,7 +117,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 // Handle the failure
             }
         });
@@ -194,7 +196,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         LoadImageProduct.loadUrl(product.getImage(), imgCart);
         tvNameCart.setText(product.getName());
         product.setCount(1);
-        product.setSaveTopping(String.valueOf(R.string.no_topping));
+        product.setSaveTopping("Không Topping");
         product.setSaveSize("S");
 
 

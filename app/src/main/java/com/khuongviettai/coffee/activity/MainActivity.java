@@ -1,29 +1,28 @@
 package com.khuongviettai.coffee.activity;
 
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-
+import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.google.android.material.navigation.NavigationBarView;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.adapter.MainAdapter;
 import com.khuongviettai.coffee.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
     private ViewPager2 viewPager;
     private BottomNavigationView bottomNavigationView;
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.khuongviettai.coffee.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         viewPager = findViewById(R.id.vpg_main);
         bottomNavigationView = findViewById(R.id.menu_bottom);
@@ -54,25 +53,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.btn_home:
-                    viewPager.setCurrentItem(0);
-                    break;
-                case R.id.btn_shop:
-                    viewPager.setCurrentItem(1);
-                    break;
-                case R.id.btn_cart:
-                    viewPager.setCurrentItem(2);
-                    break;
-                case R.id.btn_history:
-                    viewPager.setCurrentItem(3);
-                    break;
-                case R.id.btn_profile:
-                    viewPager.setCurrentItem(4);
-                    break;
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.btn_home:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.btn_shop:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case R.id.btn_cart:
+                        viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.btn_history:
+                        viewPager.setCurrentItem(3);
+                        break;
+                    case R.id.btn_profile:
+                        viewPager.setCurrentItem(4);
+                        break;
+                }
+                return true;
             }
-            return true;
         });
     }
 

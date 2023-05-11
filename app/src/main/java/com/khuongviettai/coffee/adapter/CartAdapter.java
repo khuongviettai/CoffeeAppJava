@@ -1,13 +1,14 @@
 package com.khuongviettai.coffee.adapter;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.khuongviettai.coffee.databinding.ItemLayoutCartBinding;
+import com.khuongviettai.coffee.listener.ClickItemListener;
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
 
@@ -15,8 +16,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-    private final List<Product> productList;
-    private final ClickItemListener clickItemListener;
+    private List<Product> productList;
+    private ClickItemListener clickItemListener;
 
     public interface ClickItemListener {
         void clickDelete(Product product, int position);
@@ -36,7 +37,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return new CartViewHolder(itemLayoutCartBinding);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         Product product = productList.get(position);
@@ -50,14 +50,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
 
         holder.binding.tvCount.setText(String.valueOf(product.getCount()));
-        holder.binding.tvProductToppingCart.setText("Topping: " + product.getSaveTopping());
-        holder.binding.tvProductSizeCart.setText("Size: " + product.getSaveSize());
+        holder.binding.tvProductToppingCart.setText("Topping: " + String.valueOf((product.getSaveTopping())));
+        holder.binding.tvProductSizeCart.setText("Size: " + String.valueOf(product.getSaveSize()));
 
         String strCount2 = holder.binding.tvCount.getText().toString();
         int counts = Integer.parseInt(strCount2);
         int Price =  (product.getTotalPrice() / counts);
         String formattedOldPrice = formatter.format(Price);
-        holder.binding.tvProductPriceCart.setText(formattedOldPrice + "  X" + "(" + product.getCount() + ")") ;
+        holder.binding.tvProductPriceCart.setText(String.valueOf(formattedOldPrice + "  X" + "("+ String.valueOf(product.getCount())) + ")") ;
 
 
 
@@ -101,8 +101,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return null == productList ? 0 : productList.size();
     }
 
-    public static class CartViewHolder extends RecyclerView.ViewHolder {
-        private final ItemLayoutCartBinding binding;
+    public class CartViewHolder extends RecyclerView.ViewHolder {
+        private ItemLayoutCartBinding binding;
         public CartViewHolder(ItemLayoutCartBinding itemLayoutCartBinding) {
             super(itemLayoutCartBinding.getRoot());
             this.binding = itemLayoutCartBinding;
