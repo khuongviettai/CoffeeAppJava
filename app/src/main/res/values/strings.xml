@@ -22,6 +22,7 @@
     <!--  Show mess  -->
     <string name="msg_exit_app">Do you want to exit the application?</string>
     <string name="agree">Agree</string>
+    <string name="email">Email</string>
 
     <!--  OnBoarding  -->
     <string name="get_start">Get Start</string>
