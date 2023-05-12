@@ -38,16 +38,14 @@
 
                 <EditText
                     android:id="@+id/rst_username"
-                    android:inputType="text"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_60"
-                    android:imeOptions="actionNext"
+
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
-                    android:padding="@dimen/dimen_18"
-                    tools:ignore="Autofill"/>
+                    android:padding="@dimen/dimen_18"/>
                 <TextView
                     android:padding="@dimen/dimen_4"
                     android:background="@color/white"
@@ -63,17 +61,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:inputType="phone"
                     android:id="@+id/rst_phone"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:imeOptions="actionNext"
+
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
-                    android:padding="@dimen/dimen_18"
-                    tools:ignore="Autofill"/>
+                    android:padding="@dimen/dimen_18"/>
                 <TextView
                     android:padding="@dimen/dimen_4"
                     android:background="@color/white"
@@ -89,17 +85,18 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+<<<<<<< HEAD
                     android:id="@+id/rst_password"
                     android:inputType="textPassword"
+=======
+>>>>>>> parent of 5575193 (update)
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:imeOptions="actionNext"
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
-                    android:padding="@dimen/dimen_18"
-                    tools:ignore="Autofill"/>
+                    android:padding="@dimen/dimen_18"/>
                 <TextView
                     android:padding="@dimen/dimen_4"
                     android:background="@color/white"
@@ -115,17 +112,18 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+<<<<<<< HEAD
                     android:id="@+id/rst_confirm"
                     android:inputType="textPassword"
+=======
+>>>>>>> parent of 5575193 (update)
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"
-                    android:imeOptions="actionDone"
                     android:layout_height="@dimen/dimen_60"
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
-                    android:padding="@dimen/dimen_18"
-                    tools:ignore="Autofill"/>
+                    android:padding="@dimen/dimen_18"/>
                 <TextView
                     android:padding="@dimen/dimen_4"
                     android:background="@color/white"

@@ -35,13 +35,11 @@
                 android:layout_marginTop="@dimen/dimen_20"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_60"
-                android:imeOptions="actionNext"
                 android:inputType="phone"
                 android:background="@drawable/bg_white_shape_border_red_corner_6"
                 android:layout_marginStart="@dimen/dimen_20"
                 android:layout_marginEnd="@dimen/dimen_20"
-                android:padding="@dimen/dimen_18"
-                tools:ignore="Autofill"/>
+                android:padding="@dimen/dimen_18"/>
             <TextView
                 android:padding="@dimen/dimen_4"
                 android:background="@color/white"
@@ -61,13 +59,10 @@
                 android:layout_marginTop="@dimen/dimen_20"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_60"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
                 android:background="@drawable/bg_white_shape_border_red_corner_6"
                 android:layout_marginStart="@dimen/dimen_20"
                 android:layout_marginEnd="@dimen/dimen_20"
-                android:padding="@dimen/dimen_18"
-                tools:ignore="Autofill"/>
+                android:padding="@dimen/dimen_18"/>
             <TextView
                 android:padding="@dimen/dimen_4"
                 android:background="@color/white"
