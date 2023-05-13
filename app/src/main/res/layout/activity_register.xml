@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/rst_phone"
+                    android:id="@+id/rst_email"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -52,7 +52,7 @@
                     android:background="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/phone"
+                    android:text="@string/email"
                     android:layout_marginLeft="@dimen/dimen_40"
                     android:layout_marginTop="@dimen/dimen_5"
                     />
@@ -84,6 +84,7 @@
                     />
             </RelativeLayout>
             <Button
+                android:id="@+id/btn_register"
                 android:layout_marginTop="@dimen/dimen_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
