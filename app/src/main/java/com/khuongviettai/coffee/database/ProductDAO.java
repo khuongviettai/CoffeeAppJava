@@ -20,7 +20,7 @@ public interface ProductDAO {
     @Query("SELECT * FROM product")
     List<Product> list();
 
-    @Query("SELECT * FROM product WHERE _id=:id")
+    @Query("SELECT * FROM product WHERE id=:id")
     List<Product> checkProductInCart(String id);
 
 

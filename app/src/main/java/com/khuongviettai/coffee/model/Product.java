@@ -5,13 +5,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity(tableName = "product")
 public class Product implements Serializable {
     @PrimaryKey
     @NonNull
-    private String _id;
+    private int id;
     private String name;
     private int price;
     private int sale;
@@ -26,8 +27,13 @@ public class Product implements Serializable {
     private String saveSize;
     private int totalPrice;
 
-    public Product(@NonNull String _id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category, int count, String saveTopping, String saveSize, int totalPrice) {
-        this._id = _id;
+
+
+    public Product() {
+    }
+
+    public Product(int id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category, int count, String saveTopping, String saveSize, int totalPrice) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.sale = sale;
@@ -50,12 +56,12 @@ public class Product implements Serializable {
         return price - (price * sale / 100);
     }
 
-    public String get_id() {
-        return _id;
+    public int getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

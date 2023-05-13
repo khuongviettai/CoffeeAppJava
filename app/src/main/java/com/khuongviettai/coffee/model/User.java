@@ -1,47 +1,29 @@
 package com.khuongviettai.coffee.model;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class User implements Serializable {
-    private String _id;
-    private String name;
-    private String phone;
+public class User {
+
+    private String email;
     private String password;
-    private boolean admin;
-    private List<Order> orders;
 
-    public User(String _id, String name, String phone, String password, boolean admin, List<Order> orders) {
-        this._id = _id;
-        this.name = name;
-        this.phone = phone;
+    public User() {
+    }
+
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
-        this.admin = admin;
-        this.orders = orders;
     }
 
-    public String get_id() {
-        return _id;
+    public String getEmail() {
+        return email;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -52,23 +34,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public String toJSon() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
-
-
-
-

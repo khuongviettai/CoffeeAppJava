@@ -392,7 +392,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
     private boolean isProductInCart() {
-        List<Product> list = ProductDataBase.getInstance(this).productDAO().checkProductInCart(product.get_id());
+        List<Product> list = ProductDataBase.getInstance(this).productDAO().checkProductInCart(String.valueOf(product.getId()));
         return list != null && !list.isEmpty();
     }
 

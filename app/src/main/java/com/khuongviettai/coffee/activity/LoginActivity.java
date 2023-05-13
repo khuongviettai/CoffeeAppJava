@@ -10,9 +10,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.database.ApiProduct;
 import com.khuongviettai.coffee.model.User;
+import com.khuongviettai.coffee.utils.DataStoreManager;
+import com.khuongviettai.coffee.utils.GlobalFuntion;
+import com.khuongviettai.coffee.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +32,20 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextUser, editTextPassword;
     private Button btnLogin;
     private TextView tvChangeToRegister;
+    protected MaterialDialog progressDialog, alertDialog;
 
-    private List<User> userList;
+    public void showProgressDialog(boolean value) {
+        if (value) {
+            if (progressDialog != null && !progressDialog.isShowing()) {
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+            }
+        } else {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.edt_password_login);
         btnLogin = findViewById(R.id.btn_login);
         tvChangeToRegister = findViewById(R.id.tv_login_change_register);
-        userList = new ArrayList<>();
-        getListUser();
+
 
         tvChangeToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,39 +74,40 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private void clickLogin() {
-        String strUsername = editTextUser.getText().toString().trim();
+        String strEmail = editTextUser.getText().toString().trim();
         String strPassword = editTextPassword.getText().toString().trim();
 
-        if (userList == null || userList.isEmpty()){
-            return;
-        }
-        boolean isSuccessLogin = false;
-        for (User user : userList){
-            if (strUsername.equals(user.getPhone()) && strPassword.equals((user.getPassword()))){
-                isSuccessLogin = true;
-                break;
-            }
-        }
-        if (isSuccessLogin){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(LoginActivity.this, "phone or password wrong", Toast.LENGTH_LONG).show();
+        if (StringUtil.isEmpty(strEmail)) {
+            Toast.makeText(LoginActivity.this, getString(R.string.msg_email_require), Toast.LENGTH_SHORT).show();
+        } else if (StringUtil.isEmpty(strPassword)) {
+            Toast.makeText(LoginActivity.this, getString(R.string.msg_password_require), Toast.LENGTH_SHORT).show();
+        } else if (!StringUtil.isValidEmail(strEmail)) {
+            Toast.makeText(LoginActivity.this, getString(R.string.msg_email_invalid), Toast.LENGTH_SHORT).show();
+        } else {
+            signInUser(strEmail, strPassword);
         }
     }
 
-    private void getListUser() {
-        ApiProduct.apiProduct.getUserList("userName").enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                userList = response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Unstable network! Please try again later", Toast.LENGTH_LONG).show();
-            }
-        });
+    private void signInUser(String email, String password) {
+        showProgressDialog(true);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    showProgressDialog(false);
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null) {
+                            User userObject = new User(user.getEmail(), password);
+                            DataStoreManager.setUser(userObject);
+                            GlobalFuntion.startActivity(LoginActivity.this, MainActivity.class);
+                            finishAffinity();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, getString(R.string.msg_sign_in_error),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+
+
 }

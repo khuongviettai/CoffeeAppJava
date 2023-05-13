@@ -13,6 +13,12 @@
     <string name="address">Address</string>
     <string name="message_enter_info_order">Please complete all information</string>
 
+    <string name="msg_waiting_message">Waiting ...</string>
+    <string name="msg_sign_in_error">Login fail</string>
+    <string name="msg_email_require">Please! input Email</string>
+    <string name="msg_password_require">Please! input password</string>
+    <string name="msg_email_invalid">Email is valid</string>
+
 
     <!--  Show mess  -->
     <string name="msg_exit_app">Do you want to exit the application?</string>
