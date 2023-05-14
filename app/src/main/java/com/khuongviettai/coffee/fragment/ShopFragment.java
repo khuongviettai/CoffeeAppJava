@@ -44,6 +44,7 @@ public class ShopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         fragmentShopBinding = FragmentShopBinding.inflate(inflater, container, false);
         recyclerView = fragmentShopBinding.rcvProduct;
 
