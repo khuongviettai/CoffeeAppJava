@@ -126,6 +126,13 @@
     <string name="label_gmail">Gmail</string>
     <string name="label_zalo">Zalo</string>
 
+    <string name="label_id">Code orders:</string>
+    <string name="label_address">Receiving address:</string>
+    <string name="label_price">Total amount:</string>
+    <string name="label_date">Order date:</string>
+    <string name="label_payment">Pay:</string>
+    <string name="label_menu">Menu:</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

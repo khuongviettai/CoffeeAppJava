@@ -43,7 +43,6 @@ public class ProfileFragment extends Fragment {
         btn_change_password = view.findViewById(R.id.btn_change_password);
         btn_feedback = view.findViewById(R.id.btn_feedback);
 
-
     }
 
     private void initListener() {
