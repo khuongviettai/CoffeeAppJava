@@ -31,13 +31,13 @@
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/dimen_20"
+        android:layout_marginEnd="@dimen/dimen_20"
+        android:layout_marginBottom="@dimen/dimen_30"
         android:background="@drawable/bg_brown_shape_corner_16"
         android:text="@string/get_start"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_16"
-        android:layout_marginStart="@dimen/dimen_20"
-        android:layout_marginEnd="@dimen/dimen_20"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dimen_30"/>
+        android:textSize="@dimen/text_size_16" />
 
 </RelativeLayout>

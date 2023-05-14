@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Coffee</string>
     <string name="khuongviettai">Khuong Viet Tai</string>
+
     <!--  menu bottom  -->
     <string name="home">Home</string>
     <string name="shop">Shop</string>
@@ -13,11 +14,30 @@
     <string name="address">Address</string>
     <string name="message_enter_info_order">Please complete all information</string>
 
-    <string name="msg_waiting_message">Waiting ...</string>
-    <string name="msg_sign_in_error">Login fail</string>
-    <string name="msg_email_require">Please! input Email</string>
-    <string name="msg_password_require">Please! input password</string>
-    <string name="msg_email_invalid">Email is valid</string>
+    <string name="msg_get_date_error">An error occurred, please try again later</string>
+
+
+    // action
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!--  Account  -->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="msg_waiting_message">Please wait ...</string>
+    <string name="msg_sign_in_error">Login failed, please try again</string>
+    <string name="msg_email_require">Please enter your email</string>
+    <string name="msg_password_require">Please enter your password</string>
+    <string name="msg_email_invalid">Your email is invalid</string>
+    <string name="msg_sign_up_error">Registration failed, please try again</string>
+    <string name="msg_change_password_successfully">Change password successfully</string>
+    <string name="msg_reset_password_successfully">Password reset is successful, please check your email</string>
+    <string name="msg_old_password_require">Please enter old password</string>
+    <string name="msg_new_password_require">Please enter new password</string>
+    <string name="msg_confirm_password_require">Please enter confirm new password</string>
+    <string name="msg_old_password_invalid">Old password is incorrect</string>
+    <string name="msg_confirm_password_invalid">Confirm new password does not match</string>
+    <string name="msg_new_password_invalid">The new password is the same as the old password</string>
 
 
     <!--  Show mess  -->
@@ -30,7 +50,7 @@
     <!--  Shop  -->
     <string name="search">Search</string>
 
-<!--  product  -->
+    <!--  product  -->
     <string name="price">Price:</string>
     <string name="description">Description</string>
     <string name="add_to_cart">Add To Cart</string>
@@ -47,6 +67,7 @@
     <string name="cancel">Cancel</string>
     <string name="recommended_products">Recommended products</string>
     <string name="no_topping">No Topping</string>
+    <string name="suggestions_for_you">Suggestions for you</string>
 
     <!--  Cart  -->
     <string name="total">Total:</string>
@@ -55,15 +76,13 @@
     <string name="delete">Delete</string>
     <string name="confirm_delete">Confirm delete</string>
     <string name="message_delete">Are you sure you want to delete?</string>
-    
+
     <!--  Profile  -->
     <string name="utilities">Utilities</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="policy">Policy</string>
 
 
-    
-    
     <!--  Login Register  -->
     <string name="login">Login</string>
     <string name="phone">Phone</string>
@@ -72,7 +91,7 @@
     <string name="register">Register</string>
     <string name="confirm_password">Confirm password</string>
     <string name="full_name">Full name</string>
-    
+
     <string name="msg_name">Please enter your name</string>
     <string name="msg_phone">Please enter your phone</string>
     <string name="msg_password">Please enter your password</string>
@@ -80,6 +99,7 @@
     <string name="msg_phone_exist">Phone number already exists</string>
     <string name="msg_register_success">Registration Success</string>
     <string name="msg_register_failed">Registration failed</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

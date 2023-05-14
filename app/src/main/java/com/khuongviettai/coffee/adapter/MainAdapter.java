@@ -43,4 +43,3 @@ public class MainAdapter extends FragmentStateAdapter {
         return NUM_PAGES;
     }
 }
-

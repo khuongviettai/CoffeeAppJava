@@ -12,17 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.adapter.CartAdapter;
-import com.khuongviettai.coffee.database.ProductDAO;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.FragmentCartBinding;
 import com.khuongviettai.coffee.listener.ReloadListCartEvent;
-import com.khuongviettai.coffee.model.Order;
+
 import com.khuongviettai.coffee.model.Product;
 import com.khuongviettai.coffee.utils.StringUtil;
 
@@ -33,8 +32,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class CartFragment extends Fragment {
 
     private FragmentCartBinding binding;
@@ -69,7 +66,7 @@ public class CartFragment extends Fragment {
     }
 
     private void initDataCart() {
-        productList = ProductDataBase.getInstance(getActivity()).productDAO().  list();
+        productList = ProductDataBase.getInstance(getActivity()).productDAO().list();
         if (productList == null || productList.isEmpty()) {
             return;
         }
@@ -184,13 +181,8 @@ public class CartFragment extends Fragment {
             String strName = edtNameOrder.getText().toString().trim();
             String strPhone = edtPhoneOrder.getText().toString().trim();
             String strAddress = edtAddressOrder.getText().toString().trim();
-
-
         });
-
         bottomSheetDialog.show();
-
-
     }
 
     private String getStringListFoodsOrder() {
@@ -211,4 +203,3 @@ public class CartFragment extends Fragment {
     }
 
 }
-

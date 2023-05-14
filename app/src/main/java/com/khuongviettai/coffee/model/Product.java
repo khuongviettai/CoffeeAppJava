@@ -1,17 +1,17 @@
 package com.khuongviettai.coffee.model;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 
 @Entity(tableName = "product")
 public class Product implements Serializable {
     @PrimaryKey
-    @NonNull
     private int id;
     private String name;
     private int price;
@@ -27,9 +27,14 @@ public class Product implements Serializable {
     private String saveSize;
     private int totalPrice;
 
-
-
     public Product() {
+    }
+
+    public int getRealPrice() {
+        if (sale <= 0) {
+            return price;
+        }
+        return price - (price * sale / 100);
     }
 
     public Product(int id, String name, int price, int sale, int quantity, String image, List<String> topping, List<String> size, String description, String category, int count, String saveTopping, String saveSize, int totalPrice) {
@@ -47,13 +52,6 @@ public class Product implements Serializable {
         this.saveTopping = saveTopping;
         this.saveSize = saveSize;
         this.totalPrice = totalPrice;
-    }
-
-    public int getRealPrice() {
-        if (sale <= 0) {
-            return price;
-        }
-        return price - (price * sale / 100);
     }
 
     public int getId() {

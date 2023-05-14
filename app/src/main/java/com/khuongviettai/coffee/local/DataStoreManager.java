@@ -1,4 +1,4 @@
-package com.khuongviettai.coffee.utils;
+package com.khuongviettai.coffee.local;
 
 import android.content.Context;
 
@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.khuongviettai.coffee.model.User;
+import com.khuongviettai.coffee.utils.StringUtil;
 
 public class DataStoreManager {
 

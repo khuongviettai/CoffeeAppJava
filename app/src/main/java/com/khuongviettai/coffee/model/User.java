@@ -2,9 +2,6 @@ package com.khuongviettai.coffee.model;
 
 import com.google.gson.Gson;
 
-import java.io.Serializable;
-import java.util.List;
-
 public class User {
 
     private String email;

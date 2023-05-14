@@ -1,4 +1,4 @@
-package com.khuongviettai.coffee.utils;
+package com.khuongviettai.coffee.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;

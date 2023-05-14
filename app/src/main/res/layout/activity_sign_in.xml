@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="Autofill,LabelFor"
     android:background="@color/white"
-    tools:context=".activity.RegisterActivity">
-
+    tools:context=".activity.SignInActivity">
     <LinearLayout
+        android:layout_marginTop="@dimen/dimen_20"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register"
+            android:text="@string/sign_in"
             android:fontFamily="@font/bungee_regular"
             android:textSize="40sp"
             android:layout_marginTop="@dimen/dimen_70"
@@ -38,15 +36,15 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/rst_email"
-                    android:layout_marginTop="@dimen/dimen_20"
+                    android:id="@+id/si_email"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-
-                    android:background="@drawable/bg_white_shape_border_red_corner_6"
                     android:layout_marginStart="@dimen/dimen_20"
+
+                    android:layout_marginTop="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
-                    android:padding="@dimen/dimen_18"/>
+                    android:background="@drawable/bg_white_shape_border_red_corner_6"
+                    android:padding="@dimen/dimen_18" />
                 <TextView
                     android:padding="@dimen/dimen_4"
                     android:background="@color/white"
@@ -63,16 +61,16 @@
 
                 <EditText
 
-                    android:id="@+id/rst_password"
-                    android:inputType="textPassword"
-
-                    android:layout_marginTop="@dimen/dimen_20"
+                    android:id="@+id/si_password"
                     android:layout_width="match_parent"
+
                     android:layout_height="60dp"
-                    android:background="@drawable/bg_white_shape_border_red_corner_6"
                     android:layout_marginStart="@dimen/dimen_20"
+                    android:layout_marginTop="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
-                    android:padding="@dimen/dimen_18"/>
+                    android:background="@drawable/bg_white_shape_border_red_corner_6"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/dimen_18" />
                 <TextView
                     android:padding="@dimen/dimen_4"
                     android:background="@color/white"
@@ -84,29 +82,30 @@
                     />
             </RelativeLayout>
             <Button
-                android:id="@+id/btn_register"
+                android:id="@+id/btn_sign_in"
                 android:layout_marginTop="@dimen/dimen_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_brown_shape_corner_6"
                 android:layout_marginStart="@dimen/dimen_20"
                 android:layout_marginEnd="@dimen/dimen_20"
-                android:text="@string/register"
+                android:text="@string/sign_in"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_18"/>
 
             <TextView
-                android:id="@+id/tv_register_change_login"
+                android:id="@+id/tv_sign_in_change_sign_up"
                 android:layout_marginTop="@dimen/dimen_20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_20"
                 android:layout_marginEnd="@dimen/dimen_20"
-                android:text="@string/login"
+                android:text="@string/sign_up"
                 android:gravity="center"
                 android:padding="@dimen/dimen_10"
                 android:textSize="@dimen/text_size_18"/>
 
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>

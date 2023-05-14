@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -17,17 +16,21 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.adapter.ProductAdapter;
-import com.khuongviettai.coffee.database.ApiProduct;
+import com.khuongviettai.coffee.database.ControllerApplication;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.ActivityProductDetailBinding;
 import com.khuongviettai.coffee.listener.ReloadListCartEvent;
 import com.khuongviettai.coffee.model.Product;
+import com.khuongviettai.coffee.utils.GlobalFuntion;
 import com.khuongviettai.coffee.utils.LoadImageProduct;
+import com.khuongviettai.coffee.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -36,13 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-
 public class ProductDetailActivity extends AppCompatActivity {
-
     private ActivityProductDetailBinding binding;
     private Product product;
 
@@ -51,6 +48,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private List<Product> productList = new ArrayList<>();
 
     private ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,66 +61,59 @@ public class ProductDetailActivity extends AppCompatActivity {
         setDataFoodDetail();
         initListener();
 
-//        san pham goi y
+
 
         recyclerView = findViewById(R.id.rcv_other_product);
-        productAdapter = new ProductAdapter(productList, this::goToProductDetail);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(productAdapter);
-
-        loadDataFromApi();
 
 
-
+        loadDataFromApi("");
     }
 
-    private void goToProductDetail(@NonNull Product product) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("product", product);
-        startActivity(this, ProductDetailActivity.class, bundle);
-    }
-
-    public static void startActivity(Context context, Class<?> clz, Bundle bundle) {
-        Intent intent = new Intent(context, clz);
-        intent.putExtras(bundle);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
-
-
-    private void loadDataFromApi() {
-        ApiProduct.apiProduct.call("product").enqueue(new Callback<List<Product>>() {
+    private void loadDataFromApi(String key) {
+        if (ProductDetailActivity.this == null) {
+            return;
+        }
+        ControllerApplication.get(ProductDetailActivity.this.getApplication()).getDatabaseReference().addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (response.isSuccessful()) {
-                    List<Product> allProducts = response.body();
-                    if (allProducts != null && !allProducts.isEmpty()) {
-                        // Get a random number between 2 and 6
-                        int randomCount = (int) (Math.random() * 5) + 2;
-
-                        // Shuffle the products list
-                        Collections.shuffle(allProducts);
-
-                        // Get a sublist of the randomly selected products
-                        List<Product> limitedProducts = allProducts.subList(0, Math.min(allProducts.size(), randomCount));
-
-                        productList.clear();
-                        productList.addAll(limitedProducts);
-
-                        productAdapter.notifyDataSetChanged();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Product> allProducts = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Product product = dataSnapshot.getValue(Product.class);
+                    if (product != null) {
+                        allProducts.add(product);
                     }
+                }
+                if (!allProducts.isEmpty()) {
+                    int randomCount = (int) (Math.random() * 5) + 2;
+                    Collections.shuffle(allProducts);
+                    List<Product> limitedProducts = allProducts.subList(0, Math.min(allProducts.size(), randomCount));
+
+                    productList.clear();
+                    productList.addAll(limitedProducts);
+                    displayListFoodSuggest();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                // Handle the failure
+            public void onCancelled(@NonNull DatabaseError error) {
+                GlobalFuntion.showToastMessage(ProductDetailActivity.this, getString(R.string.msg_get_date_error));
             }
         });
     }
 
+
+    private void displayListFoodSuggest() {
+
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(ProductDetailActivity.this, 2);
+//        fragmentShopBinding.rcvProduct.setLayoutManager(gridLayoutManager);
+
+
+        productAdapter = new ProductAdapter(productList, this::goToProductDetail);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(productAdapter);
+
+    }
 
     private void getDataIntent() {
         Bundle bundle = getIntent().getExtras();
@@ -171,7 +162,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
 
-//    bottom sheet chose option
+    //    bottom sheet chose option
     public void onClickAddToCart() {
 
         if (isProductInCart()) {
@@ -359,7 +350,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         tvAddCart.setOnClickListener(v -> {
-            ProductDataBase.getInstance(ProductDetailActivity.this).productDAO().insert(product);
+            ProductDataBase.getInstance(ProductDetailActivity.this).productDAO().insertFood(product);
 
             setStatusButtonAddToCart();
 //            reload khi them san pham vao gio hang
@@ -392,8 +383,22 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
     private boolean isProductInCart() {
-        List<Product> list = ProductDataBase.getInstance(this).productDAO().checkProductInCart(String.valueOf(product.getId()));
+
+        List<Product> list = ProductDataBase.getInstance(this).productDAO().checkProductInCart(product.getId());
         return list != null && !list.isEmpty();
+    }
+
+    private void goToProductDetail(@NonNull Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        startActivity(this, ProductDetailActivity.class, bundle);
+    }
+
+    public static void startActivity(Context context, Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent(context, clz);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
 

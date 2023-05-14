@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.khuongviettai.coffee.R;
-import com.khuongviettai.coffee.utils.CheckFirstInstallApp;
+import com.khuongviettai.coffee.local.CheckFirstInstallApp;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
@@ -26,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (checkFirstInstallApp.getBooleanValue(KEY_FIRST_INSTALL_APP)) {
-                    startActivity(LoginActivity.class);
+                    startActivity(SignInActivity.class);
                 }
                 else {
                     startActivity(OnboardingActivity.class);
