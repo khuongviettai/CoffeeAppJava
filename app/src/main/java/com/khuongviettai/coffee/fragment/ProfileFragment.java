@@ -7,60 +7,69 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.khuongviettai.coffee.R;
+import com.khuongviettai.coffee.activity.ChangePasswordActivity;
+import com.khuongviettai.coffee.activity.ContactActivity;
+import com.khuongviettai.coffee.activity.FeedbackActivity;
+import com.khuongviettai.coffee.activity.SignInActivity;
+import com.khuongviettai.coffee.local.DataStoreManager;
+import com.khuongviettai.coffee.utils.GlobalFuntion;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private TextView tv_Email;
+    private View view;
+    private RelativeLayout btn_term_of_use,btn_policy,btn_contact,btn_sign_out, btn_change_password, btn_feedback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        view =  inflater.inflate(R.layout.fragment_profile, container, false);
+        initUi();
+        initListener();
+        return view;
+    }
+    private void initUi(){
+        tv_Email = view.findViewById(R.id.tv_Email);
+        btn_term_of_use = view.findViewById(R.id.btn_term_of_use);
+        btn_policy = view.findViewById(R.id.btn_policy);
+        btn_contact = view.findViewById(R.id.btn_contact);
+        btn_sign_out = view.findViewById(R.id.btn_sign_out);
+        btn_change_password = view.findViewById(R.id.btn_change_password);
+        btn_feedback = view.findViewById(R.id.btn_feedback);
+
+
+    }
+
+    private void initListener() {
+        tv_Email.setText(DataStoreManager.getUser().getEmail());
+        btn_sign_out.setOnClickListener(v -> onClickSignOut());
+        btn_change_password.setOnClickListener(v -> onClickChangePassword());
+        btn_feedback.setOnClickListener(v-> onClickFeedback());
+        btn_contact.setOnClickListener(v-> onClickContact());
+        tv_Email.setText(DataStoreManager.getUser().getEmail());
+    }
+    private void onClickChangePassword() {
+        GlobalFuntion.startActivity(getActivity(), ChangePasswordActivity.class);
+    }
+    private void onClickFeedback(){
+        GlobalFuntion.startActivity(getActivity(), FeedbackActivity.class);
+    }
+    private void onClickContact(){
+        GlobalFuntion.startActivity(getActivity(), ContactActivity.class);
+    }
+    private void onClickSignOut() {
+        if (getActivity() == null) {
+            return;
+        }
+        FirebaseAuth.getInstance().signOut();
+        DataStoreManager.setUser(null);
+        GlobalFuntion.startActivity(getActivity(), SignInActivity.class);
+        getActivity().finishAffinity();
     }
 }

@@ -16,13 +16,18 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.installations.Utils;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.adapter.CartAdapter;
+import com.khuongviettai.coffee.database.ControllerApplication;
 import com.khuongviettai.coffee.database.ProductDataBase;
 import com.khuongviettai.coffee.databinding.FragmentCartBinding;
 import com.khuongviettai.coffee.listener.ReloadListCartEvent;
 
+import com.khuongviettai.coffee.model.Order;
 import com.khuongviettai.coffee.model.Product;
+import com.khuongviettai.coffee.utils.Constant;
+import com.khuongviettai.coffee.utils.GlobalFuntion;
 import com.khuongviettai.coffee.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -181,6 +186,28 @@ public class CartFragment extends Fragment {
             String strName = edtNameOrder.getText().toString().trim();
             String strPhone = edtPhoneOrder.getText().toString().trim();
             String strAddress = edtAddressOrder.getText().toString().trim();
+
+//            if (StringUtil.isEmpty(strName) || StringUtil.isEmpty(strPhone) || StringUtil.isEmpty(strAddress)) {
+//                GlobalFuntion.showToastMessage(getActivity(), getString(R.string.message_enter_infor_order));
+//            } else {
+//                long id = System.currentTimeMillis();
+//                Order order = new Order(id, strName, strPhone, strAddress,
+//                        mAmount, getStringListFoodsOrder(), Constant.TYPE_PAYMENT_CASH);
+//                ControllerApplication.get(getActivity()).getBookingDatabaseReference()
+//                        .child(Utils.getDeviceId(getActivity()))
+//                        .child(String.valueOf(id))
+//                        .setValue(order, (error1, ref1) -> {
+//                            GlobalFuntion.showToastMessage(getActivity(), getString(R.string.msg_order_success));
+//                            GlobalFuntion.hideSoftKeyboard(getActivity());
+//                            bottomSheetDialog.dismiss();
+//
+//                            ProductDataBase.getInstance(getActivity()).productDAO().deleteAllFood();
+//                            clearCart();
+//                        });
+//            }
+
+
+
         });
         bottomSheetDialog.show();
     }

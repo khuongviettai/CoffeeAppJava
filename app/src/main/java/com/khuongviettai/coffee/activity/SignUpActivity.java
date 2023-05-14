@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -14,27 +15,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.local.DataStoreManager;
 import com.khuongviettai.coffee.model.User;
+import com.khuongviettai.coffee.utils.BaseActivity;
 import com.khuongviettai.coffee.utils.GlobalFuntion;
 import com.khuongviettai.coffee.utils.StringUtil;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
 
-    private EditText edtEmail, edtPassword;
+    private EditText edtEmail, edtPassword, edtConfirmPassword;
     private Button btnSignUp;
     private ImageView imageBack;
-    protected MaterialDialog progressDialog, alertDialog;
-    public void showProgressDialog(boolean value) {
-        if (value) {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-            }
-        } else {
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
-        }
-    }
+    private LinearLayout layoutSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +39,28 @@ public class SignUpActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edt_password);
         btnSignUp = findViewById(R.id.btn_sign_in);
         imageBack = findViewById(R.id.img_back);
+        layoutSignIn = findViewById(R.id.layout_sign_in);
+        edtConfirmPassword =findViewById(R.id.Edt_confirm_password);
     }
     private void initListener(){
+        layoutSignIn.setOnClickListener(v -> finish());
         imageBack.setOnClickListener(v -> onBackPressed());
         btnSignUp.setOnClickListener(v -> onClickValidateSignUp());
     }
     private void onClickValidateSignUp() {
         String strEmail = edtEmail.getText().toString().trim();
         String strPassword = edtPassword.getText().toString().trim();
+        String strConfirmPassword = edtConfirmPassword.getText().toString().trim();
         if (StringUtil.isEmpty(strEmail)) {
             Toast.makeText(SignUpActivity.this, getString(R.string.msg_email_require), Toast.LENGTH_SHORT).show();
         } else if (StringUtil.isEmpty(strPassword)) {
             Toast.makeText(SignUpActivity.this, getString(R.string.msg_password_require), Toast.LENGTH_SHORT).show();
-        } else if (!StringUtil.isValidEmail(strEmail)) {
+        } else if (StringUtil.isEmpty(strConfirmPassword)){
+            Toast.makeText(SignUpActivity.this, getString(R.string.msg_confirm_password_require), Toast.LENGTH_SHORT).show();
+        }else if (!strPassword.equals(strConfirmPassword)) {
+            Toast.makeText(SignUpActivity.this, getString(R.string.msg_confirm_password), Toast.LENGTH_SHORT).show();
+        }
+        else if (!StringUtil.isValidEmail(strEmail)) {
             Toast.makeText(SignUpActivity.this, getString(R.string.msg_email_invalid), Toast.LENGTH_SHORT).show();
         } else {
             signUpUser(strEmail, strPassword);

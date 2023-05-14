@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,46 +16,36 @@ import com.google.firebase.auth.FirebaseUser;
 import com.khuongviettai.coffee.R;
 import com.khuongviettai.coffee.local.DataStoreManager;
 import com.khuongviettai.coffee.model.User;
+import com.khuongviettai.coffee.utils.BaseActivity;
 import com.khuongviettai.coffee.utils.GlobalFuntion;
 import com.khuongviettai.coffee.utils.StringUtil;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends BaseActivity {
 
-    private TextView btnSignUp;
+
     private EditText edtEmail,edtPassword;
     private Button btnSignIn;
-    protected MaterialDialog progressDialog, alertDialog;
-    public void showProgressDialog(boolean value) {
-        if (value) {
-            if (progressDialog != null && !progressDialog.isShowing()) {
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-            }
-        } else {
-            if (progressDialog != null && progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
-        }
-    }
-
+    private LinearLayout btnSignUp, ll_forget_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         initUi();
-
+        initListener();
     }
     private void initUi(){
-        btnSignUp = findViewById(R.id.tv_sign_in_change_sign_up);
+        btnSignUp = findViewById(R.id.layout_sign_up);
         btnSignIn = findViewById(R.id.btn_sign_in);
         edtEmail = findViewById(R.id.si_email);
         edtPassword = findViewById(R.id.si_password);
+        ll_forget_password = findViewById(R.id.ll_forget_password);
     }
 
     private void initListener() {
         btnSignUp.setOnClickListener(
                 v -> GlobalFuntion.startActivity(SignInActivity.this, SignUpActivity.class));
         btnSignIn.setOnClickListener(v -> onClickValidateSignIn());
+        ll_forget_password.setOnClickListener(v-> GlobalFuntion.startActivity(SignInActivity.this, ForgotPasswordActivity.class));
     }
     private void onClickValidateSignIn() {
         String strEmail = edtEmail.getText().toString().trim();
