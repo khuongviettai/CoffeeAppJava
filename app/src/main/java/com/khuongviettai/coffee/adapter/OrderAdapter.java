@@ -12,7 +12,9 @@ import com.khuongviettai.coffee.model.Order;
 import com.khuongviettai.coffee.utils.Constant;
 import com.khuongviettai.coffee.utils.DateTimeUtils;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
@@ -43,8 +45,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.mItemOrderBinding.tvMenu.setText(order.getFoods());
         holder.mItemOrderBinding.tvDate.setText(DateTimeUtils.convertTimeStampToDate(order.getId()));
 
-        String strAmount = order.getAmount() + "";
+        double amount = order.getAmount();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String strAmount = formatter.format(amount);
         holder.mItemOrderBinding.tvTotalAmount.setText(strAmount);
+
 
         String paymentMethod = "";
         if (Constant.TYPE_PAYMENT_CASH == order.getPayment()) {
