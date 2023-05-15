@@ -1,0 +1,56 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    border: 1px solid #dddddd;
+}
+td {
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+}
+tr:last-child {
+    border-bottom: 1px solid #dddddd;
+}
+td,th {
+    text-align: center;
+    padding: 8px;
+    
+    img {
+        width: 100px;
+    }
+}
+
+.table__img, .table__phone, .table__password, .table__order {
+    width: 20%
+}
+.table__price {
+    width: 10%;
+}
+.table__name {
+    width: 50%;
+}
+.table__funtion, .table__name-user {
+    width: 20%;
+}
+.wrap__option {
+    display: flex;
+    justify-content: space-around;
+}
+.button {
+    color: white;
+    padding: 6px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.edit {
+    background-color: rgb(10, 145, 255);
+}
+.delete {
+    background-color: rgba(255, 62, 62, 0.949);
+}
+//   tr:nth-child(even) {
+//     background-color: #dddddd;
+//   }
