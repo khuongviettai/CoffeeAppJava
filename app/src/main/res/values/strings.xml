@@ -92,6 +92,8 @@
     <string name="have_not_account">Don\'t have an account?</string>
     <string name="have_account">Already have an account?</string>
     <string name="feedback">Feedback</string>
+    <string name="user_info">User info</string>
+    <string name="personal_information">Personal information</string>
 
     <!--  Login Register  -->
     <string name="login">Login</string>
@@ -132,8 +134,18 @@
     <string name="label_date">Order date:</string>
     <string name="label_payment">Pay:</string>
     <string name="label_menu">Menu:</string>
+    <string name="btn_back">Back</string>
 
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- term of use  -->
+    <string name="intro">Introduce</string>
+    <string name="term_intro_content">When customers access the KVT Coffee application, or place an order via KVT Coffees hotline0945034118, it means that the customer has agreed to these terms. KVT Coffee reserves the right to change, modify, add or remove any part of these Terms of Use at any time. Changes are effective immediately upon posting on the website, without prior notice. When customers continue to use the delivery service of KVT Coffee, after the changes to these Terms are posted, it means that the customer accepts those changes.</string>
+    <string name="approval_from_customer">Approval from customer</string>
+    <string name="approval_from_customer_content">When using the Products - Services and/or interacting with the Company, you acknowledge and agree that you accept the provisions of this Privacy Policy, and you consent to the Company collecting, use, disclose and/or process Customer Information in accordance with the provisions described herein. IN THE CASE OF YOU DON\'T AGREE WITH THIS PRIVACY POLICY, YOU MAY CONSIDER STOP PROVIDING CUSTOMER INFORMATION TO THE COMPANY; LOG IN YOUR ACCOUNT TO CHECK, UPDATE, ADJUST CUSTOMER INFORMATION OR REQUEST THE COMPANY TO DO THIS. This privacy policy may be amended and supplemented for perfection from time to time, the Company encourages you to review it regularly to be updated and protect your interests.</string>
+
+    <!--  Policy  -->
+    <string name="information_security">Information security</string>
+    <string name="information_security_content">Customer Information is stored until you request the Company to cancel, or you log in and cancel the information yourself. In all cases, Client Information is stored and secured on the Company\'s servers.</string>
+
+
 </resources>

@@ -33,6 +33,15 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".activity.UserInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TermActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ForgotPasswordActivity"
             android:exported="false" />
         <activity

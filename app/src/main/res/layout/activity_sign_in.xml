@@ -41,7 +41,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="@dimen/dimen_20"
-
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
@@ -63,7 +64,7 @@
                 <EditText
                     android:id="@+id/si_password"
                     android:layout_width="match_parent"
-
+                    android:imeOptions="actionDone"
                     android:layout_height="60dp"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginTop="@dimen/dimen_20"

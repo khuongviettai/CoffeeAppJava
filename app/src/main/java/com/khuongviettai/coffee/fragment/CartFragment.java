@@ -12,14 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.installations.Utils;
 import com.khuongviettai.coffee.R;
+import com.khuongviettai.coffee.activity.UserInfoActivity;
 import com.khuongviettai.coffee.adapter.CartAdapter;
 import com.khuongviettai.coffee.database.ControllerApplication;
 import com.khuongviettai.coffee.database.ProductDataBase;
@@ -29,6 +35,7 @@ import com.khuongviettai.coffee.listener.ReloadListCartEvent;
 import com.khuongviettai.coffee.local.DataStoreManager;
 import com.khuongviettai.coffee.model.Order;
 import com.khuongviettai.coffee.model.Product;
+import com.khuongviettai.coffee.model.UserInfo;
 import com.khuongviettai.coffee.utils.Constant;
 import com.khuongviettai.coffee.utils.GlobalFuntion;
 import com.khuongviettai.coffee.utils.StringUtil;
@@ -46,6 +53,7 @@ public class CartFragment extends Fragment {
     private CartAdapter cartAdapter;
     private List<Product> productList;
     private int mAmount;
+    private DatabaseReference userDatabaseReference;
 
 
     @Override
@@ -59,6 +67,8 @@ public class CartFragment extends Fragment {
         displayListInCart();
         binding.tvOrderCart.setOnClickListener(v -> onClickOrderCart());
 
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
         return binding.getRoot();
     }
@@ -184,6 +194,27 @@ public class CartFragment extends Fragment {
         tvFoodsOrder.setText(getStringListFoodsOrder());
         tvPriceOrder.setText(binding.tvTotalPrice.getText().toString());
         tvCancelOrder.setOnClickListener(v -> bottomSheetDialog.dismiss());
+
+        userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    UserInfo userInfo = dataSnapshot.getValue(UserInfo.class);
+                    if (userInfo != null) {
+                        // Populate the EditText fields with the existing user information
+                        edtNameOrder.setText(userInfo.getFullName());
+                        edtPhoneOrder.setText(userInfo.getPhone());
+                        edtAddressOrder.setText(userInfo.getAddress());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Error occurred while retrieving user info
+                Toast.makeText(getActivity(), "Failed to retrieve user info", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         tvCreateOrder.setOnClickListener(v -> {

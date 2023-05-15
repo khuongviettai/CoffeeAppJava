@@ -47,10 +47,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="@dimen/dimen_20"
-
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
                     android:padding="@dimen/dimen_18" />
                 <TextView
                     android:padding="@dimen/dimen_4"
@@ -70,12 +71,12 @@
 
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
-
                     android:layout_height="60dp"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:padding="@dimen/dimen_18" />
                 <TextView
@@ -96,12 +97,12 @@
 
                     android:id="@+id/Edt_confirm_password"
                     android:layout_width="match_parent"
-
                     android:layout_height="60dp"
                     android:layout_marginStart="@dimen/dimen_20"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:layout_marginEnd="@dimen/dimen_20"
                     android:background="@drawable/bg_white_shape_border_red_corner_6"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:padding="@dimen/dimen_18" />
                 <TextView

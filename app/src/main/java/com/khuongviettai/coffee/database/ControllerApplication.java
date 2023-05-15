@@ -16,7 +16,6 @@ public class ControllerApplication extends Application {
 
     private FirebaseDatabase firebaseDatabase;
 
-
     public static ControllerApplication get(Context context){
         return (ControllerApplication) context.getApplicationContext();
     }
@@ -40,4 +39,8 @@ public class ControllerApplication extends Application {
     public DatabaseReference getBookingDatabaseReference() {
         return firebaseDatabase.getReference("/booking");
     }
+    public DatabaseReference getUserDatabaseReference() {
+        return firebaseDatabase.getReference("/users");
+    }
+
 }

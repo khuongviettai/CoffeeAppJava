@@ -7,13 +7,18 @@
         <entry key="app/src/main/res/layout/activity_contact.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/activity_feedback.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_policy.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.2006340579710145" />
+        <entry key="app/src/main/res/layout/activity_term.xml" value="0.2006340579710145" />
+        <entry key="app/src/main/res/layout/activity_user_info.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.1157548125633232" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.2006340579710145" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_contact.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/item_order.xml" value="0.2006340579710145" />
+        <entry key="app/src/main/res/layout/layout_bottom_sheet_cart.xml" value="0.2006340579710145" />
+        <entry key="app/src/main/res/layout/layout_bottom_sheet_order.xml" value="0.2006340579710145" />
       </map>
     </option>
   </component>
