@@ -26,7 +26,6 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="msg_waiting_message">Please wait ...</string>
-    <string name="msg_sign_in_error">Login failed, please try again</string>
     <string name="msg_email_require">Please enter your email</string>
     <string name="msg_password_require">Please enter your password</string>
     <string name="msg_email_invalid">Your email is invalid</string>
@@ -146,6 +145,7 @@
     <!--  Policy  -->
     <string name="information_security">Information security</string>
     <string name="information_security_content">Customer Information is stored until you request the Company to cancel, or you log in and cancel the information yourself. In all cases, Client Information is stored and secured on the Company\'s servers.</string>
+    <string name="msg_sign_in_error">Sign in failed, please try again</string>
 
 
 </resources>
