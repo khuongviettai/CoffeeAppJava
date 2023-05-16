@@ -67,3 +67,11 @@ If you want to run with firebase then run branch ``` done ```
 
 If you want to run with firebase then run branch ```  version_api_node ```
 
+
+
+## slide 
+
+```
+https://uithcm-my.sharepoint.com/:p:/g/personal/19522151_ms_uit_edu_vn/EcJYL1TrswZHvwkLQVHK3yoBnEMwLuVywARUPKP6OFp5aQ?e=msGehJ
+```
+
