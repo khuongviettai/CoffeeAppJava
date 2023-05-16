@@ -4,7 +4,7 @@
 
 Khuong Viet Tai - 19522151
 
-Pham Minh Qunang 19522099
+Pham Minh Quang - 19522099
 
 ## Figma design
 
