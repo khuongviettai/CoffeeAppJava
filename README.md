@@ -2,7 +2,7 @@
 
 # Participants
 
-Khuong Viet Tai - 19522151
+Khuong Viet Tai - 19522151 - Leader
 
 Pham Minh Quang - 19522099
 
